@@ -2,23 +2,22 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
+  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { EntryModel } from './entry.model';
 
-import { CommentModel } from './comment.model';
-
-@Entity('entries')
-export class EntryModel {
+@Entity('comments')
+export class CommentModel {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  title: string;
+  @Column('text')
+  body: string;
 
-  @OneToMany((type) => CommentModel, (comment) => comment.entry)
-  comments: CommentModel[];
+  @ManyToOne(() => EntryModel, (entry) => entry.comments)
+  entry: EntryModel;
 
   @CreateDateColumn()
   createdAt: Date;
