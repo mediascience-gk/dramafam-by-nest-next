@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EntryModel } from '../models/entry.model';
 import { EntryController } from '../controllers/entry.controller';
 import { EntryService } from '../services/entry.service';
 
