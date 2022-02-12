@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import { EntryModel } from './entry.model';
 
 @Entity('comments')
