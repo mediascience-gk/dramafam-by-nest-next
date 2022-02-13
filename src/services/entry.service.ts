@@ -15,7 +15,7 @@ export class EntryService {
   }
 
   findOne(id: number): Promise<EntryModel | undefined> {
-    return this.entriesRepository.findOne(id);
+    return this.entriesRepository.findOne(id, { relations: ['comments'] });
   }
 
   async remove(id: string): Promise<void> {
