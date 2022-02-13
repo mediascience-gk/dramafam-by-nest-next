@@ -17,6 +17,12 @@ export class EntryController {
   @Get(':id')
   async show(@Param('id') id: number) {
     const entry = await this.entryService.findOne(id);
-    return entry;
+    const comments = await this.commentService.findAll();
+    const contents = {
+      entry: entry,
+      comments: comments,
+    };
+    console.log(entry, comments);
+    return contents;
   }
 }

@@ -11,7 +11,14 @@ export class CommentService {
   ) {}
 
   findAll(): Promise<CommentModel[]> {
-    return this.commentsRepository.find();
+    return this.commentsRepository.find({
+      select: ['id', 'body'],
+      relations: ['entry'],
+      where: {
+        entry: { id: 1 },
+      },
+      order: { createdAt: 'DESC' },
+    });
   }
 
   findOne(id: number): Promise<CommentModel | undefined> {
