@@ -1,6 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { EntryService } from '../services/entry.service';
 import { CommentService } from '../services/comment.service';
+import { CommentModel } from '../models/comment.model';
+import { EntryModel } from '../models/entry.model';
 
 @Controller('entry')
 export class EntryController {
@@ -10,12 +12,13 @@ export class EntryController {
   ) {}
 
   @Get()
-  index() {
+  index(): Promise<EntryModel[]> {
     return this.entryService.findAll();
   }
 
   @Get(':id')
-  async show(@Param('id') id: number) {
+  async show(@Param('id') id: number): Promise<CommentModel[]> {
+    /*
     const entry = await this.entryService.findOne(id);
     const comments = await this.commentService.findAll();
     const contents = {
@@ -23,6 +26,7 @@ export class EntryController {
       comments: comments,
     };
     console.log(entry, comments);
-    return contents;
+     */
+    return this.commentService.findAll();
   }
 }
