@@ -1,12 +1,47 @@
 import { Drama } from './drama';
 
 test('管理者が、正規のドラマ情報を送信すると、新規でドラマが追加される', () => {
-  const drama = new Drama();
+  const drama = new Drama({
+    drama_name: 'ドラマ名',
+    season: '放送時期',
+    permaLink: 'パーマリンク (URL用文字列)',
+    pronounce: '読み方',
+    tvCompany: '放送局',
+    startAt: '開始日',
+    endAt: '終了日 (optional)',
+  });
+
   expect(() => drama.save()).not.toThrowError();
 });
 
-xtest('管理者が、不正なドラマ情報を送信すると、エラーが返る (ex: ドラマ名が未入力)', () => {
-  expect(false).toEqual(true);
+test('管理者が、不正なドラマ情報を送信すると、エラーが返る (ex: ドラマ名が未入力)', () => {
+  expect(
+    () =>
+      new Drama({
+        drama_name: null as any,
+        season: '放送時期',
+        permaLink: 'パーマリンク (URL用文字列)',
+        pronounce: '読み方',
+        tvCompany: '放送局',
+        startAt: '開始日',
+        endAt: '終了日 (optional)',
+      }),
+  ).toThrowError();
+});
+
+test('管理者が、不正なドラマ情報を送信すると、エラーが返る (ex: ドラマ名がゼロ文字)', () => {
+  expect(
+    () =>
+      new Drama({
+        drama_name: '',
+        season: '放送時期',
+        permaLink: 'パーマリンク (URL用文字列)',
+        pronounce: '読み方',
+        tvCompany: '放送局',
+        startAt: '開始日',
+        endAt: '終了日 (optional)',
+      }),
+  ).toThrowError();
 });
 
 xtest('管理者が、不正なドラマ情報を送信すると、エラーが返る (ex: パーマリンクが未入力)', () => {
