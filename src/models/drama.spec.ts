@@ -2,10 +2,10 @@ import { Drama } from './drama';
 
 test('管理者が、正規のドラマ情報を送信すると、新規でドラマが追加される', () => {
   const drama = new Drama({
-    dramaName: 'ドラマ名',
+    name: 'ドラマ名',
     season: '放送時期',
-    permaLink: 'パーマリンク (URL用文字列)',
-    pronounce: '読み方',
+    permalink: 'パーマリンク (URL用文字列)',
+    kana: '読み方',
     tvCompany: '放送局',
     startAt: '開始日',
     endAt: '終了日 (optional)',
@@ -18,10 +18,10 @@ test('管理者が、不正なドラマ情報を送信すると、エラーが�
   expect(
     () =>
       new Drama({
-        dramaName: null as any,
+        name: null as any,
         season: '放送時期',
-        permaLink: 'パーマリンク (URL用文字列)',
-        pronounce: '読み方',
+        permalink: 'パーマリンク (URL用文字列)',
+        kana: '読み方',
         tvCompany: '放送局',
         startAt: '開始日',
         endAt: '終了日 (optional)',
@@ -33,10 +33,10 @@ test('管理者が、不正なドラマ情報を送信すると、エラーが�
   expect(
     () =>
       new Drama({
-        dramaName: '',
+        name: '',
         season: '放送時期',
-        permaLink: 'パーマリンク (URL用文字列)',
-        pronounce: '読み方',
+        permalink: 'パーマリンク (URL用文字列)',
+        kana: '読み方',
         tvCompany: '放送局',
         startAt: '開始日',
         endAt: '終了日 (optional)',
