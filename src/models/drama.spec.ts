@@ -2,7 +2,7 @@ import { Drama } from './drama';
 
 test('管理者が、正規のドラマ情報を送信すると、新規でドラマが追加される', () => {
   const drama = new Drama({
-    drama_name: 'ドラマ名',
+    dramaName: 'ドラマ名',
     season: '放送時期',
     permaLink: 'パーマリンク (URL用文字列)',
     pronounce: '読み方',
@@ -18,7 +18,7 @@ test('管理者が、不正なドラマ情報を送信すると、エラーが�
   expect(
     () =>
       new Drama({
-        drama_name: null as any,
+        dramaName: null as any,
         season: '放送時期',
         permaLink: 'パーマリンク (URL用文字列)',
         pronounce: '読み方',
@@ -33,7 +33,7 @@ test('管理者が、不正なドラマ情報を送信すると、エラーが�
   expect(
     () =>
       new Drama({
-        drama_name: '',
+        dramaName: '',
         season: '放送時期',
         permaLink: 'パーマリンク (URL用文字列)',
         pronounce: '読み方',

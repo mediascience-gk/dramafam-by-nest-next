@@ -1,5 +1,5 @@
 export class Drama {
-  private drama_name: string;
+  private dramaName: string;
   private season: string;
   private permaLink: string;
   private pronounce: string;
@@ -8,7 +8,7 @@ export class Drama {
   private endAt: string;
 
   constructor(props: {
-    drama_name: string;
+    dramaName: string;
     season: string;
     permaLink: string;
     pronounce: string;
@@ -18,7 +18,7 @@ export class Drama {
   }) {
     this.validateProps(props);
 
-    this.drama_name = props.drama_name;
+    this.dramaName = props.dramaName;
     this.season = props.season;
     this.permaLink = props.permaLink;
     this.pronounce = props.pronounce;
@@ -30,7 +30,7 @@ export class Drama {
   save() {}
 
   private validateProps(props: {
-    drama_name: string;
+    dramaName: string;
     season: string;
     permaLink: string;
     pronounce: string;
@@ -38,10 +38,10 @@ export class Drama {
     startAt: string;
     endAt: string;
   }): void {
-    if (props.drama_name === null) {
-      throw new Error('null drama_name');
-    } else if (props.drama_name?.length < 1) {
-      throw new Error('zero-length drama_name');
+    if (props.dramaName === null) {
+      throw new Error('null dramaName');
+    } else if (props.dramaName?.length < 1) {
+      throw new Error('zero-length dramaName');
     }
   }
 }
