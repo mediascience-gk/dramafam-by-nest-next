@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { DramaModule } from '../../src/modules/drama.module';
+import { DramaDBService } from '../../src/modules/orm/dramaDB.service';
 import { DramaModel } from '../../src/orm/drama.model';
 
-describe('Drama 追加API (e2e)', () => {
+describe('Drama ORM Model', () => {
   let app: INestApplication;
+  let dramaDbService: DramaDBService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -14,6 +16,28 @@ describe('Drama 追加API (e2e)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
 
-    const dramaModel = app.get<DramaModel>(DramaModel);
+    dramaDbService = app.get<DramaDBService>(DramaDBService);
+
+    const dramaModel = new DramaModel();
+    dramaModel.name = 'ドラマ名';
+    dramaModel.season = '放送時期';
+    dramaModel.permalink = 'パーマリンク (URL用文字列)';
+    dramaModel.kana = 'よみかた';
+    dramaModel.tvCompany = '放送局';
+    dramaModel.startAt = new Date('2022-02-27T17:45:29.215Z');
+    dramaModel.endAt = new Date('2022-02-27T17:45:29.215Z');
+
+    await dramaDbService.repo.save(dramaModel);
+  });
+
+  it('retrieve drama data form DB', async () => {
+    const dramaModel = await dramaDbService.repo.findOne({
+      where: {
+        name: 'ドラマ名',
+      },
+    });
+
+    expect(dramaModel).toBeInstanceOf(DramaModel);
+    expect(dramaModel?.name).toBe('ドラマ名');
   });
 });
