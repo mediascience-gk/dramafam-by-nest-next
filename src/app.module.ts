@@ -5,11 +5,10 @@ import { Connection } from 'typeorm';
 import { EntryModule } from './modules/entry.module';
 import { CommentModule } from './modules/comment.module';
 import { DramaModule } from './modules/drama.module';
-import { DramaController } from './controllers/drama.controller';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), CommentModule, EntryModule, DramaModule],
-  controllers: [DramaController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {
