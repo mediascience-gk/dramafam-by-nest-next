@@ -1,9 +1,13 @@
-import { Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 
 @Controller('drama')
 export class DramaController {
   @Post()
-  addDrama() {
+  addDrama(@Body() data: any) {
+    if (!data?.season) {
+      throw new BadRequestException();
+    }
+
     return 1;
   }
 }

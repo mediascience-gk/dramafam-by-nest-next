@@ -15,7 +15,7 @@ describe('Drama 追加API (e2e)', () => {
     await app.init();
   });
 
-  it('<When> に正規のドラマのデータを送信すれば、 <Given> そのドラマがすでに登録済みでなければ <Then> ドラマが追加される', () => {
+  it('<When> に正規のドラマのデータを送信すると、 <Given> そのドラマがすでに登録済みでなければ <Then> ドラマが追加される', () => {
     return request(app.getHttpServer())
       .post('/drama')
       .send({
@@ -31,7 +31,20 @@ describe('Drama 追加API (e2e)', () => {
       .expect('1');
   });
 
-  xit('入力項目のバリデーション機能の実装 ', () => {});
+  it('<When> に不正なドラマのデータを送信すると、 <Then> ドラマは追加されない', () => {
+    return request(app.getHttpServer())
+      .post('/drama')
+      .send({
+        name: 'ドラマ名',
+        // season: '放送時期',
+        permalink: 'パーマリンク (URL用文字列)',
+        kana: 'よみかた',
+        tvCompany: '放送局',
+        startAt: '開始日',
+        endAt: '終了日 (optional)',
+      })
+      .expect(400);
+  });
 
   xit('ログインチェック', () => {});
 
