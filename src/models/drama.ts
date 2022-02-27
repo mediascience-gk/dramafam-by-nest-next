@@ -70,8 +70,6 @@ export class Drama {
     } else if (props.tvCompany?.length < 1) {
       throw new Error('zero-length tvCompany');
     }
-
-    const kanaCon = new ConvertKanaToKanaStatus(props.kana);
   }
 
   isKana = function (kana: string) {
