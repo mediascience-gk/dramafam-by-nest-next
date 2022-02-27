@@ -34,6 +34,9 @@ export class Drama {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  delete() {}
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   save() {}
 
   private validateProps(props: {
