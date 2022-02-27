@@ -72,7 +72,6 @@ export class Drama {
     }
 
     const kanaCon = new ConvertKanaToKanaStatus(props.kana);
-    console.log(kanaCon.convert());
   }
 
   isKana = function (kana: string) {
