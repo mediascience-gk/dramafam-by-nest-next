@@ -1,8 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { EntryService } from '../services/entry.service';
 import { CommentService } from '../services/comment.service';
-import { CommentModel } from '../models/comment.model';
-import { EntryModel } from '../models/entry.model';
+import { CommentModel } from '../orm/comment.model';
+import { EntryModel } from '../orm/entry.model';
 
 @Controller('entry')
 export class EntryController {

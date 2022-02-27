@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { EntryController } from '../controllers/entry.controller';
 import { EntryService } from '../services/entry.service';
 import { CommentService } from '../services/comment.service';
-import { EntryModel } from '../models/entry.model';
-import { CommentModel } from '../models/comment.model';
+import { EntryModel } from '../orm/entry.model';
+import { CommentModel } from '../orm/comment.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
