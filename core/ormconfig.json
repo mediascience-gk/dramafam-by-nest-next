@@ -5,6 +5,6 @@
   "username": "test",
   "password": "passwd",
   "database": "sample",
-  "entities": ["dist/**/*.model{.ts,.js}"],
+  "entities": ["dist/**/*.orm{.ts,.js}"],
   "synchronize": true
 }
