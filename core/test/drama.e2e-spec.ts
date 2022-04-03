@@ -15,7 +15,7 @@ describe('Drama 追加API (e2e)', () => {
     await app.init();
   });
 
-  it('<When> に正規のドラマのデータを送信すると、 <Given> そのドラマがすでに登録済みでなければ <Then> ドラマが追加される', () => {
+  xit('<When> に正規のドラマのデータを送信すると、 <Given> そのドラマがすでに登録済みでなければ <Then> ドラマが追加される', () => {
     return request(app.getHttpServer())
       .post('/drama')
       .send({
@@ -31,7 +31,7 @@ describe('Drama 追加API (e2e)', () => {
       .expect('1');
   });
 
-  it('<When> に不正なドラマのデータを送信すると、 <Then> ドラマは追加されない', () => {
+  xit('<When> に不正なドラマのデータを送信すると、 <Then> ドラマは追加されない', () => {
     return request(app.getHttpServer())
       .post('/drama')
       .send({
@@ -45,8 +45,4 @@ describe('Drama 追加API (e2e)', () => {
       })
       .expect(400);
   });
-
-  xit('ログインチェック', () => {});
-
-  xit('エラーハンドリング', () => {});
 });

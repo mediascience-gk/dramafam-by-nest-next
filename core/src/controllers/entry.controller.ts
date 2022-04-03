@@ -17,16 +17,17 @@ export class EntryController {
   }
 
   @Get(':id')
-  async show(@Param('id') id: number): Promise<CommentModel[]> {
-    /*
-    const entry = await this.entryService.findOne(id);
-    const comments = await this.commentService.findAll();
-    const contents = {
-      entry: entry,
-      comments: comments,
-    };
-    console.log(entry, comments);
+  async show(@Param('id') id: number): Promise<EntryModel | undefined> {
+    return this.entryService.findOne(id);
+    /**
+     * const entry = await this.entryService.findOne(id);
+     * const comments = await this.commentService.findAll();
+     * const contents = {
+     *   entry: entry,
+     *   comments: comments,
+     * };
+     * console.log(entry, comments);
+     * return this.commentService.findAll();
      */
-    return this.commentService.findAll();
   }
 }

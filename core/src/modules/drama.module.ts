@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { DramaController } from '../controllers/drama.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DramaModel } from '../orm/drama.model';
 import { DramaDBService } from './orm/dramaDB.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DramaModel])],
+  imports: [TypeOrmModule.forFeature([])],
   controllers: [DramaController],
-  providers: [DramaDBService],
+  providers: [],
 })
 export class DramaModule {}

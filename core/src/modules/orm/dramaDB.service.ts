@@ -7,6 +7,6 @@ import { DramaModel } from '../../orm/drama.model';
 export class DramaDBService {
   constructor(
     @InjectRepository(DramaModel)
-    public repo: Repository<DramaModel>,
+    public dramasRepository: Repository<DramaModel>,
   ) {}
 }
