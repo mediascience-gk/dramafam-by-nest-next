@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { EntryModule } from '../src/modules/entry.module';
+import { EntryModule } from '../src/entries/entry.module';
 import { CommonModule } from '../src/common/common.module';
 
 describe(EntryModule, () => {

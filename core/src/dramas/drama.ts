@@ -1,4 +1,4 @@
-import { ConvertKanaToKanaStatus } from './convertKanaToKanaStatus';
+import { ConvertKanaToKanaStatus } from '../common/use-cases/convertKanaToKanaStatus';
 
 export class Drama {
   private name: string;

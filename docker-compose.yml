@@ -5,6 +5,7 @@ services:
   mysql: # Mysql container
     container_name: development-mysql
     image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
     volumes:
       - ./conf:/etc/mysql/conf.d
@@ -19,6 +20,24 @@ services:
     ports:
       - 3306:3306
 
+  mysql_test: # Mysql container
+    container_name: development-mysql-test
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    volumes:
+      - ./conf:/etc/mysql/conf.d
+      - ./logs:/var/log/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: rootPassword
+      MYSQL_DATABASE: sample_test
+      MYSQL_USER:     test
+      MYSQL_PASSWORD: passwd
+      TZ: Asia/Tokyo
+    ports:
+      - 3307:3306
+
   pma: # phpMyAdmin container
     container_name: development-pma
     image: phpmyadmin/phpmyadmin:latest
@@ -30,3 +49,15 @@ services:
       - 8080:80
     links:
       - mysql:db
+
+  pma_test: # phpMyAdmin container
+    container_name: development-pma-test
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: rootPassword
+    ports:
+      - 8081:80
+    links:
+      - mysql_test:db

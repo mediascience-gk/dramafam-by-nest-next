@@ -17,7 +17,7 @@ export class EntryModel {
   @Column()
   title: string;
 
-  @OneToMany((type) => CommentModel, (comment) => comment.entry)
+  @OneToMany(() => CommentModel, (comment) => comment.entry)
   comments: CommentModel[];
 
   @CreateDateColumn()

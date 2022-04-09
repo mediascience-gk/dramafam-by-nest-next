@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { DramaModule } from '../../src/modules/drama.module';
-import { DramaDBService } from '../../src/modules/orm/dramaDB.service';
-import { DramaModel } from '../../src/orm/drama.model';
+import { DramaModule } from '../../src/dramas/drama.module';
+import { DramaDBService } from '../../src/dramas/orm/dramaDB.service';
+import { DramaModel } from '../../src/entities/drama.model';
 
 describe('Drama ORM Model', () => {
   let app: INestApplication;

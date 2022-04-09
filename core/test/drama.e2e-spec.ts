@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { DramaModule } from '../src/modules/drama.module';
+import { DramaModule } from '../src/dramas/drama.module';
 
 describe('Drama 追加API (e2e)', () => {
   let app: INestApplication;

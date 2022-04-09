@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DramaController } from '../controllers/drama.controller';
+import { DramaController } from './drama.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DramaDBService } from './orm/dramaDB.service';
 

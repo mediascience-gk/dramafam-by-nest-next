@@ -1,15 +1,16 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { EntryService } from '../services/entry.service';
-import { CommentService } from '../services/comment.service';
-import { CommentModel } from '../orm/comment.model';
-import { EntryModel } from '../orm/entry.model';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { EntryService } from './entry.service';
+import { EntryModel } from '../entities/entry.model';
+import { CreateEntryDto } from './dto/create-entry.dto';
 
 @Controller('entry')
 export class EntryController {
-  constructor(
-    private readonly entryService: EntryService,
-    private readonly commentService: CommentService,
-  ) {}
+  constructor(private readonly entryService: EntryService) {}
+
+  @Post()
+  async create(@Body() createEntryDto: CreateEntryDto): Promise<EntryModel> {
+    return await this.entryService.create(createEntryDto);
+  }
 
   @Get()
   index(): Promise<EntryModel[]> {

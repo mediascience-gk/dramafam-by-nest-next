@@ -1,52 +1,115 @@
 import { Test } from '@nestjs/testing';
-import { EntryModule } from '../../src/modules/entry.module';
-import { CommonModule } from '../../src/common/common.module';
+import { EntryModule } from '../../src/entries/entry.module';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { EntryModel } from '../../src/orm/entry.model';
-import { CommentModel } from '../../src/orm/comment.model';
+import { EntryModel } from '../../src/entities/entry.model';
+import { CommentModel } from '../../src/entities/comment.model';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { EntryRepository } from '../../src/entries/entry.repository';
+import { CommonSpecModule } from '../../src/common/common-spec.module';
 
 @Injectable()
 class StubEntryService {
   constructor(
     @InjectRepository(EntryModel)
-    readonly repo: Repository<EntryModel>,
+    readonly repository: EntryRepository,
   ) {}
 }
 
 // ORM の CRUD のテストをしたい
 describe(EntryModule, () => {
-  let repo: Repository<EntryModel>;
+  let repository: EntryRepository;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
       imports: [
-        CommonModule,
+        CommonSpecModule,
         TypeOrmModule.forFeature([EntryModel, CommentModel]),
       ],
-      providers: [StubEntryService],
+      providers: [StubEntryService, EntryRepository],
     }).compile();
 
-    const s = moduleFixture.get<StubEntryService>(StubEntryService);
-    repo = s.repo;
+    const entryService = moduleFixture.get<StubEntryService>(StubEntryService);
+    repository = entryService.repository;
   });
 
-  xit('Create a model', () => {
+  it('Create a model', async () => {
     // given => zero model
+
+    // when
+    const entry = await repository.create({
+      title: 'EntryTitle1',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+    await repository.save(entry);
+
+    // when (custom repository)
+    // const createEntryDto: CreateEntryDto = {
+    //   title: 'EntryTitle',
+    // };
+    // const entry = await repository.createEntry(createEntryDto);
+
+    // then
+    expect(entry.title).toEqual('EntryTitle1');
+    await repository.delete(entry.id);
   });
 
   it('Read a model', async () => {
-    // given => has a model (repo.create())
+    // given => has a model (repository.create())
+    const entry = await repository.create({
+      title: 'EntryTitle1',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+    await repository.save(entry);
 
     // when
-    const data = await repo.find();
+    const entries = await repository.find();
 
     // then
-    expect(data.length).toEqual(0);
+    // console.log(entries);
+    expect(entries.length).toBeGreaterThanOrEqual(1);
+    await repository.delete(entry.id);
   });
 
-  xit('Update a model', () => {});
+  it('Update a model', async () => {
+    // given => has a model (repository.create())
+    const title = 'EntryTitle1';
+    const updatedAt = new Date();
+    const entry = await repository.create({
+      title,
+      createdAt: new Date(),
+      updatedAt,
+    });
+    await repository.save(entry);
 
-  xit('Delete a model', () => {});
+    // when
+    entry.title = 'EntryTitle2';
+    entry.updatedAt = new Date();
+    await repository.save(entry);
+
+    // then
+    expect(title).not.toEqual(entry.title);
+    expect(updatedAt).not.toEqual(entry.updatedAt);
+    await repository.delete(entry.id);
+  });
+
+  it('Delete a model', async () => {
+    // given => has a model (repository.create())
+    const entry = await repository.create({
+      title: 'EntryTitle1',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+    await repository.save(entry);
+
+    // when
+    await repository.delete(entry.id);
+
+    // then
+    const deletedEntry = await repository.findOne({
+      id: entry.id,
+    });
+    expect(deletedEntry).toEqual(undefined);
+  });
 });

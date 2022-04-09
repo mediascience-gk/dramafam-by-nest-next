@@ -8,13 +8,13 @@ import { EntryModel } from '../entities/entry.model';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
-      port: 3306,
+      port: 3307,
       username: 'test',
       password: 'passwd',
-      database: 'sample',
+      database: 'sample_test',
       entities: [CommentModel, EntryModel],
       synchronize: true,
     }),
   ],
 })
-export class CommonModule {}
+export class CommonSpecModule {}
