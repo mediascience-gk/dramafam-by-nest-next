@@ -68,7 +68,7 @@ describe(EntryModule, () => {
 
     // then
     // console.log(entries);
-    expect(entries.length).toBeGreaterThanOrEqual(1);
+    expect(entries.length).toEqual(1);
     await repository.delete(entry.id);
   });
 
