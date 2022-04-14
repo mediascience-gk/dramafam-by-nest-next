@@ -1,19 +1,15 @@
 import { Test } from '@nestjs/testing';
 import { EntryModule } from '../../src/entries/entry.module';
-import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { EntryModel } from '../../src/entities/entry.model';
-import { CommentModel } from '../../src/entities/comment.model';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { EntryRepository } from '../../src/entries/entry.repository';
 import { CommonSpecModule } from '../../src/common/common-spec.module';
+import { CreateEntryDto } from '../../src/entries/dto/create-entry.dto';
 
-@Injectable()
-class StubEntryService {
-  constructor(
-    @InjectRepository(EntryModel)
-    readonly repository: EntryRepository,
-  ) {}
-}
+// @Injectable()
+// class StubEntryService {
+//   constructor(readonly repository: EntryRepository) {}
+// }
 
 // ORM の CRUD のテストをしたい
 describe(EntryModule, () => {
@@ -21,33 +17,37 @@ describe(EntryModule, () => {
 
   beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
-      imports: [
-        CommonSpecModule,
-        TypeOrmModule.forFeature([EntryModel, CommentModel]),
+      imports: [CommonSpecModule, TypeOrmModule.forFeature([EntryRepository])],
+      providers: [
+        /* StubEntryService */
       ],
-      providers: [StubEntryService, EntryRepository],
     }).compile();
 
-    const entryService = moduleFixture.get<StubEntryService>(StubEntryService);
-    repository = entryService.repository;
+    // StubEntryService経由でEntryRepositoryのインスタンスを取得
+    // const entryService = moduleFixture.get<StubEntryService>(StubEntryService);
+    // repository = entryService.repository;
+
+    // 直接EntryRepositoryのインスタンスを取得
+    const app = moduleFixture.createNestApplication();
+    repository = app.get<EntryRepository>(EntryRepository);
   });
 
   it('Create a model', async () => {
     // given => zero model
 
     // when
-    const entry = await repository.create({
-      title: 'EntryTitle1',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
-    await repository.save(entry);
+    // const entry = await repository.create({
+    //   title: 'EntryTitle1',
+    //   createdAt: new Date().toISOString(),
+    //   updatedAt: new Date().toISOString(),
+    // });
+    // await repository.save(entry);
 
     // when (custom repository)
-    // const createEntryDto: CreateEntryDto = {
-    //   title: 'EntryTitle',
-    // };
-    // const entry = await repository.createEntry(createEntryDto);
+    const createEntryDto: CreateEntryDto = {
+      title: 'EntryTitle1',
+    };
+    const entry = await repository.createEntry(createEntryDto);
 
     // then
     expect(entry.title).toEqual('EntryTitle1');
