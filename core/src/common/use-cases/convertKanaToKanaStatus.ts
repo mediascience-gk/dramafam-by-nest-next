@@ -6,9 +6,9 @@ export class ConvertKanaToKanaStatus {
   }
 
   convert = function () {
-    const kana = this.kanaToHira(this.kana);
+    let kana = this.kanaToHira(this.kana);
     this.kanaDic.forEach(function (element: [string, string]) {
-      kana.replace(element[0], element[1]);
+      kana = kana.split(element[0]).join(element[1]);
     });
     return kana;
   };
@@ -31,5 +31,25 @@ export class ConvertKanaToKanaStatus {
     ['ゅ', 'ゆ'],
     ['ょ', 'よ'],
     ['ゎ', 'わ'],
+    ['が', 'か'],
+    ['ぎ', 'き'],
+    ['ぐ', 'く'],
+    ['げ', 'け'],
+    ['ご', 'こ'],
+    ['ざ', 'さ'],
+    ['じ', 'さ'],
+    ['ず', 'す'],
+    ['ぜ', 'せ'],
+    ['ぞ', 'そ'],
+    ['だ', 'た'],
+    ['ぢ', 'ち'],
+    ['づ', 'つ'],
+    ['で', 'て'],
+    ['ど', 'と'],
+    ['ば', 'は'],
+    ['び', 'ひ'],
+    ['ぶ', 'ふ'],
+    ['べ', 'へ'],
+    ['ぼ', 'ほ'],
   ];
 }

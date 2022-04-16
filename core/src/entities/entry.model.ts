@@ -17,6 +17,21 @@ export class EntryModel {
   @Column()
   title: string;
 
+  @Column()
+  permalink: string;
+
+  @Column()
+  kana: string;
+
+  @Column()
+  kanaStatus: string;
+
+  @Column()
+  startAt: string;
+
+  @Column({ nullable: true, type: 'varchar', width: 64 })
+  endAt: string | null;
+
   @OneToMany(() => CommentModel, (comment) => comment.entry)
   comments: CommentModel[];
 

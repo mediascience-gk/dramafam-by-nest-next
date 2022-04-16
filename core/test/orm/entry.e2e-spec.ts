@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { EntryModule } from '../../src/entries/entry.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
+// import { Injectable } from '@nestjs/common';
 import { EntryRepository } from '../../src/entries/entry.repository';
 import { CommonSpecModule } from '../../src/common/common-spec.module';
 import { CreateEntryDto } from '../../src/entries/dto/create-entry.dto';
@@ -46,6 +46,11 @@ describe(EntryModule, () => {
     // when (custom repository)
     const createEntryDto: CreateEntryDto = {
       title: 'EntryTitle1',
+      permalink: 'drama-title',
+      kana: 'ドラマタイトル',
+      kanaStatus: 'とらまたいとる',
+      startAt: '2022-04-01',
+      endAt: null,
     };
     const entry = await repository.createEntry(createEntryDto);
 
@@ -58,6 +63,11 @@ describe(EntryModule, () => {
     // given => has a model (repository.create())
     const entry = await repository.create({
       title: 'EntryTitle1',
+      permalink: 'drama-title',
+      kana: 'ドラマタイトル',
+      kanaStatus: 'とらまたいとる',
+      startAt: '2022-04-01',
+      endAt: null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
@@ -78,6 +88,11 @@ describe(EntryModule, () => {
     const updatedAt = new Date();
     const entry = await repository.create({
       title,
+      permalink: 'drama-title',
+      kana: 'ドラマタイトル',
+      kanaStatus: 'とらまたいとる',
+      startAt: '2022-04-01',
+      endAt: null,
       createdAt: new Date(),
       updatedAt,
     });
@@ -98,6 +113,11 @@ describe(EntryModule, () => {
     // given => has a model (repository.create())
     const entry = await repository.create({
       title: 'EntryTitle1',
+      permalink: 'drama-title',
+      kana: 'ドラマタイトル',
+      kanaStatus: 'とらまたいとる',
+      startAt: '2022-04-01',
+      endAt: null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
