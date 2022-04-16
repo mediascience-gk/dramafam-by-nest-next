@@ -38,6 +38,10 @@ describe(EntryModule, () => {
     // when
     // const entry = await repository.create({
     //   title: 'EntryTitle1',
+    //   permalink: 'drama-title',
+    //   kana: 'ドラマタイトル',
+    //   startAt: '2022-04-01',
+    //   endAt: null,
     //   createdAt: new Date().toISOString(),
     //   updatedAt: new Date().toISOString(),
     // });
@@ -48,7 +52,6 @@ describe(EntryModule, () => {
       title: 'EntryTitle1',
       permalink: 'drama-title',
       kana: 'ドラマタイトル',
-      kanaStatus: 'とらまたいとる',
       startAt: '2022-04-01',
       endAt: null,
     };
@@ -68,8 +71,8 @@ describe(EntryModule, () => {
       kanaStatus: 'とらまたいとる',
       startAt: '2022-04-01',
       endAt: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     await repository.save(entry);
 
@@ -118,8 +121,8 @@ describe(EntryModule, () => {
       kanaStatus: 'とらまたいとる',
       startAt: '2022-04-01',
       endAt: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     await repository.save(entry);
 

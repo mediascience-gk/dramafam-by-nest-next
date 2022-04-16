@@ -21,14 +21,6 @@ export class CreateEntryDto {
   })
   kana: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(80)
-  @IsKanaStatus('kanaStatus', {
-    message: 'ひらがなでご入力ください',
-  })
-  kanaStatus: string;
-
   @IsNotEmpty()
   startAt: string;
 

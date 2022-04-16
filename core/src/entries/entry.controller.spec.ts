@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntryController } from './entry.controller';
-import { EntryService } from './entry.service';
-import { CreateEntryDto } from './dto/create-entry.dto';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { EntryModel } from '../entities/entry.model';
 import { ValidationError } from '@nestjs/common';
-import { ConvertKanaToKanaStatus } from '../common/use-cases/convertKanaToKanaStatus';
+
+import { EntryController } from './entry.controller';
+import { EntryService } from './entry.service';
+import { EntryModel } from '../entities/entry.model';
+import { CreateEntryDto } from './dto/create-entry.dto';
 
 describe('EntryController', () => {
   let controller: EntryController;
@@ -22,15 +22,10 @@ describe('EntryController', () => {
   };
 
   beforeEach(async () => {
-    const kana = 'ドラマタイトル';
-    const convertKanaToKanaStatus = new ConvertKanaToKanaStatus(kana);
-    const kanaStatus = convertKanaToKanaStatus.convert();
-
     mockCreateEntryDto = {
       title: 'DramaTitle',
       permalink: 'drama-title',
-      kana,
-      kanaStatus,
+      kana: 'ドラマタイトル',
       startAt: '2022-04-01',
       endAt: null,
     };
@@ -40,6 +35,7 @@ describe('EntryController', () => {
         return Promise.resolve({
           id: 1,
           ...mockCreateEntryDto,
+          kanaStatus: 'とらまたいとる',
           comments: [],
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -68,30 +64,6 @@ describe('EntryController', () => {
     it('バリデーション通過', async () => {
       const errors = await validateDto(CreateEntryDto, mockCreateEntryDto);
       expect(errors.length).toBe(0);
-    });
-
-    describe('ConvertKanaToKanaStatusが機能している', () => {
-      it('カタカナの変換', () => {
-        const convertKanaToKanaStatus = new ConvertKanaToKanaStatus(
-          'タチツテト',
-        );
-        const kanaStatus = convertKanaToKanaStatus.convert();
-        expect(kanaStatus).toBe('たちつてと');
-      });
-      it('濁点を含む変換', () => {
-        const convertKanaToKanaStatus = new ConvertKanaToKanaStatus(
-          'だだだぢぢぢづづづでででどどど',
-        );
-        const kanaStatus = convertKanaToKanaStatus.convert();
-        expect(kanaStatus).toBe('たたたちちちつつつてててととと');
-      });
-      it('小文字を含む変換', () => {
-        const convertKanaToKanaStatus = new ConvertKanaToKanaStatus(
-          'ぁぁぁぃぃぃぅぅぅぇぇぇぉぉぉ',
-        );
-        const kanaStatus = convertKanaToKanaStatus.convert();
-        expect(kanaStatus).toBe('あああいいいうううえええおおお');
-      });
     });
   });
 
@@ -141,27 +113,6 @@ describe('EntryController', () => {
     it('kana: [ひらがなorカタカナ]以外が入力された場合', async () => {
       const entry = { ...mockCreateEntryDto };
       entry.kana = '漢字';
-      const errors = await validateDto(CreateEntryDto, entry);
-      expect(errors.length).not.toBe(0);
-    });
-
-    it('kanaStatus: kanaStatusが未入力(空文字)', async () => {
-      const entry = { ...mockCreateEntryDto };
-      entry.kanaStatus = '';
-      const errors = await validateDto(CreateEntryDto, entry);
-      expect(errors.length).not.toBe(0);
-    });
-
-    it('kanaStatus: kanaStatusが未入力(null)', async () => {
-      const entry = { ...mockCreateEntryDto };
-      entry.kanaStatus = null!;
-      const errors = await validateDto(CreateEntryDto, entry);
-      expect(errors.length).not.toBe(0);
-    });
-
-    it('kanaStatus: ひらがな以外が入力された場合（小文字、濁点・半濁点もNG）', async () => {
-      const entry = { ...mockCreateEntryDto };
-      entry.kanaStatus = 'どらまたいとる';
       const errors = await validateDto(CreateEntryDto, entry);
       expect(errors.length).not.toBe(0);
     });

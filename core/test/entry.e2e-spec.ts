@@ -7,7 +7,7 @@ import { CommonModule } from '../src/common/common.module';
 describe(EntryModule, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
       imports: [CommonModule, EntryModule],
     }).compile();
@@ -18,5 +18,24 @@ describe(EntryModule, () => {
 
   it(`/GET entry`, () => {
     return request(app.getHttpServer()).get('/entry').expect(200);
+  });
+
+  it('/POST create', () => {
+    const postedTitle = 'DramaTitle';
+
+    return request(app.getHttpServer())
+      .post('/entry')
+      .send({
+        title: postedTitle,
+        permalink: 'drama-title',
+        kana: 'ドラマタイトル',
+        startAt: '2022-04-01',
+      })
+      .expect(201)
+      .then((res) => {
+        const { id, title } = res.body;
+        expect(id).toBeDefined();
+        expect(title).toEqual(postedTitle);
+      });
   });
 });
