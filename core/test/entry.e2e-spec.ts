@@ -20,7 +20,7 @@ describe(EntryModule, () => {
     return request(app.getHttpServer()).get('/entry').expect(200);
   });
 
-  it('/POST create', () => {
+  xit('/POST create', () => {
     const postedTitle = 'DramaTitle';
 
     return request(app.getHttpServer())

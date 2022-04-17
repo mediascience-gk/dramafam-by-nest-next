@@ -1,10 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { EntryModule } from '../../src/entries/entry.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 // import { Injectable } from '@nestjs/common';
 import { EntryRepository } from '../../src/entries/entry.repository';
-import { CommonSpecModule } from '../../src/common/common-spec.module';
 import { CreateEntryDto } from '../../src/entries/dto/create-entry.dto';
+import { AppModule } from '../../src/app.module';
 
 // @Injectable()
 // class StubEntryService {
@@ -17,7 +16,7 @@ describe(EntryModule, () => {
 
   beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
-      imports: [CommonSpecModule, TypeOrmModule.forFeature([EntryRepository])],
+      imports: [AppModule],
       providers: [
         /* StubEntryService */
       ],
