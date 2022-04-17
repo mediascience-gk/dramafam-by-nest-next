@@ -2,41 +2,19 @@ version: '3.2'
 
 services:
 
-  mysql: # Mysql container
-    container_name: development-mysql
-    image: mysql:5.7
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    restart: always
+  mysql: # mariadb container
+    container_name: development-mariadb
+    image: mariadb:10.5
     volumes:
-      - ./conf:/etc/mysql/conf.d
-      - ./logs:/var/log/mysql
-      - ./init:/docker-entrypoint-initdb.d
-    environment:
-      MYSQL_ROOT_PASSWORD: rootPassword
-      MYSQL_DATABASE: sample
-      MYSQL_USER:     test
-      MYSQL_PASSWORD: passwd
-      TZ: Asia/Tokyo
-    ports:
-      - 3306:3306
-
-  mysql_test: # Mysql container
-    container_name: development-mysql-test
-    image: mysql:5.7
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    restart: always
-    volumes:
-      - ./conf:/etc/mysql/conf.d
-      - ./logs:/var/log/mysql
-      - ./init:/docker-entrypoint-initdb.d
-    environment:
-      MYSQL_ROOT_PASSWORD: rootPassword
-      MYSQL_DATABASE: sample_test
-      MYSQL_USER:     test
-      MYSQL_PASSWORD: passwd
-      TZ: Asia/Tokyo
+      - ./db_data:/var/lib/mysql
     ports:
       - 3307:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
 
   pma: # phpMyAdmin container
     container_name: development-pma
@@ -44,11 +22,25 @@ services:
     restart: always
     environment:
       PMA_USER: root
-      PMA_PASSWORD: rootPassword
+      PMA_PASSWORD: root_password
     ports:
       - 8080:80
     links:
       - mysql:db
+
+  mysql_test: # mariadb container
+    container_name: development-mariadb-test
+    image: mariadb:10.5
+    volumes:
+      - ./db_data_test:/var/lib/mysql
+    ports:
+      - 3308:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
 
   pma_test: # phpMyAdmin container
     container_name: development-pma-test
@@ -56,7 +48,7 @@ services:
     restart: always
     environment:
       PMA_USER: root
-      PMA_PASSWORD: rootPassword
+      PMA_PASSWORD: root_password
     ports:
       - 8081:80
     links:
