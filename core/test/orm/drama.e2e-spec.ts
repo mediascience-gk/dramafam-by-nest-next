@@ -63,10 +63,10 @@ describe(DramaModule, () => {
       startAt: '2022-04-01',
       endAt: null,
     };
-    const drama = await dramaRepository.createDrama(createDramaDto);
+    const createdDrama = await dramaRepository.createDrama(createDramaDto);
 
     // then
-    expect(drama.title).toEqual('DramaTitle1');
+    expect(createdDrama.title).toEqual('DramaTitle1');
   });
 
   it('Read a model', async () => {
