@@ -49,7 +49,7 @@ describe(DramaModule, () => {
   });
 
   afterAll(async () => {
-    module.close();
+    await module.close();
   });
 
   it('Create a model', async () => {
@@ -76,7 +76,7 @@ describe(DramaModule, () => {
     const dramas = await dramaRepository.find();
 
     // then
-    expect(dramas.length).toBeGreaterThan(0);
+    expect(dramas).toBeDefined();
   });
 
   it('Update a model', async () => {

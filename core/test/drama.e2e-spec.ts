@@ -34,7 +34,7 @@ describe(DramaModule, () => {
   });
 
   afterAll(async () => {
-    module.close();
+    await module.close();
   });
 
   it(`/GET drama`, () => {
