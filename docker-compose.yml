@@ -8,7 +8,7 @@ services:
     volumes:
       - ./db_data:/var/lib/mysql
     ports:
-      - 3307:3306
+      - 3306:3306
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
@@ -27,29 +27,3 @@ services:
       - 8080:80
     links:
       - mysql:db
-
-  mysql_test: # mariadb container
-    container_name: development-mariadb-test
-    image: mariadb:10.5
-    volumes:
-      - ./db_data_test:/var/lib/mysql
-    ports:
-      - 3308:3306
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: test
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-
-  pma_test: # phpMyAdmin container
-    container_name: development-pma-test
-    image: phpmyadmin/phpmyadmin:latest
-    restart: always
-    environment:
-      PMA_USER: root
-      PMA_PASSWORD: root_password
-    ports:
-      - 8081:80
-    links:
-      - mysql_test:db

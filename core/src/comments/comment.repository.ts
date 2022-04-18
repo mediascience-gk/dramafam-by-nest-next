@@ -1,17 +1,17 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { CommentModel } from '../entities/comment.model';
+import { CommentEntity } from '../entities/comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { EntryModel } from '../entities/entry.model';
+import { DramaEntity } from '../entities/drama.entity';
 
-@EntityRepository(CommentModel)
-export class CommentRepository extends Repository<CommentModel> {
-  async createComment(createCommentDto: CreateCommentDto, entry: EntryModel) {
+@EntityRepository(CommentEntity)
+export class CommentRepository extends Repository<CommentEntity> {
+  async createComment(createCommentDto: CreateCommentDto, drama: DramaEntity) {
     const { body } = createCommentDto;
     const comment = this.create({
       body,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      entry,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      drama,
     });
     await this.save(comment);
 

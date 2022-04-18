@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
-import { Connection } from 'typeorm';
 
-import { EntryModule } from './entries/entry.module';
+import { DramaModule } from './entries/drama.module';
 import { CommentModule } from './comments/comment.module';
 import { CommonModule } from './common/common.module';
 
 @Module({
-  imports: [CommentModule, EntryModule, CommonModule],
+  imports: [CommentModule, DramaModule, CommonModule],
   controllers: [],
   providers: [],
 })
-export class AppModule {
-  constructor(private connection: Connection) {}
-}
+export class AppModule {}

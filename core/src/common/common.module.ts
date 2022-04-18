@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CommentModel } from '../entities/comment.model';
-import { EntryModel } from '../entities/entry.model';
+import { CommentEntity } from '../entities/comment.entity';
+import { DramaEntity } from '../entities/drama.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
-      port: 3307,
+      port: 3306,
       username: 'user',
       password: 'password',
       database: 'test',
-      entities: [CommentModel, EntryModel],
+      entities: [CommentEntity, DramaEntity],
       synchronize: true,
     }),
   ],

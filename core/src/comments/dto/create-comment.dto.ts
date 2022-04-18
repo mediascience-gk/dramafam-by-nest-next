@@ -6,5 +6,5 @@ export class CreateCommentDto {
   body: string;
 
   @IsInt()
-  entryId: number;
+  dramaId: number;
 }

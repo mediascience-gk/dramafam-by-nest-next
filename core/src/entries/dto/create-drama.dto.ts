@@ -1,8 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { IsKana } from '../../common/decorators/validators/isKana';
-import { IsKanaStatus } from '../../common/decorators/validators/isKanaStatus';
 
-export class CreateEntryDto {
+export class CreateDramaDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(80)

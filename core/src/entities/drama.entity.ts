@@ -7,10 +7,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { CommentModel } from './comment.model';
+import { CommentEntity } from './comment.entity';
 
-@Entity('entries')
-export class EntryModel {
+@Entity('dramas')
+export class DramaEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -32,8 +32,8 @@ export class EntryModel {
   @Column({ nullable: true, type: 'varchar', width: 64 })
   endAt: string | null;
 
-  @OneToMany(() => CommentModel, (comment) => comment.entry)
-  comments: CommentModel[];
+  @OneToMany(() => CommentEntity, (comment) => comment.drama, { cascade: true })
+  comments: CommentEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

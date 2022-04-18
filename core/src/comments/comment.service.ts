@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CommentModel } from '../entities/comment.model';
-import { EntryService } from '../entries/entry.service';
+import { CommentEntity } from '../entities/comment.entity';
+import { DramaService } from '../entries/drama.service';
 import { CommentRepository } from './comment.repository';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -8,27 +8,27 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 export class CommentService {
   constructor(
     private commentsRepository: CommentRepository,
-    private entryService: EntryService,
+    private dramaService: DramaService,
   ) {}
 
-  async create(createCommentDto: CreateCommentDto): Promise<CommentModel> {
-    const { entryId } = createCommentDto;
-    const entry = await this.entryService.findOne(entryId);
-    return await this.commentsRepository.createComment(createCommentDto, entry);
+  async create(createCommentDto: CreateCommentDto): Promise<CommentEntity> {
+    const { dramaId } = createCommentDto;
+    const drama = await this.dramaService.findOne(dramaId);
+    return await this.commentsRepository.createComment(createCommentDto, drama);
   }
 
   findAll() {
     return this.commentsRepository.find({
       select: ['id', 'body'],
-      relations: ['entry'],
+      relations: ['drama'],
       where: {
-        entry: { id: 1 },
+        drama: { id: 1 },
       },
       order: { createdAt: 'DESC' },
     });
   }
 
-  async findOne(id: number): Promise<CommentModel | undefined> {
+  async findOne(id: number): Promise<CommentEntity | undefined> {
     return await this.commentsRepository.findOne(id);
   }
 

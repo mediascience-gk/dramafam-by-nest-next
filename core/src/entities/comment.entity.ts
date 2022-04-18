@@ -7,21 +7,21 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { EntryModel } from './entry.model';
+import { DramaEntity } from './drama.entity';
 
 @Entity('comments')
-export class CommentModel {
+export class CommentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column('text')
   body: string;
 
-  @ManyToOne(() => EntryModel, (entry) => entry.comments, {
-    cascade: true,
+  @ManyToOne(() => DramaEntity, (drama) => drama.comments, {
     onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
   })
-  entry: EntryModel;
+  drama: DramaEntity;
 
   @CreateDateColumn()
   createdAt: Date;
