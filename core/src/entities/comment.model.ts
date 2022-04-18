@@ -17,7 +17,10 @@ export class CommentModel {
   @Column('text')
   body: string;
 
-  @ManyToOne(() => EntryModel, (entry) => entry.comments)
+  @ManyToOne(() => EntryModel, (entry) => entry.comments, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   entry: EntryModel;
 
   @CreateDateColumn()
