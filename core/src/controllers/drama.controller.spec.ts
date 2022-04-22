@@ -4,9 +4,9 @@ import { validate } from 'class-validator';
 import { ValidationError } from '@nestjs/common';
 
 import { DramaController } from './drama.controller';
-import { DramaService } from './drama.service';
-import { DramaEntity } from '../entities/drama.entity';
-import { CreateDramaDto } from './dto/create-drama.dto';
+import { DramaService } from '../services/drama.service';
+import { CreateDramaDto } from '../services/dto/create-drama.dto';
+import { Drama } from '../models/drama/drama';
 
 describe('DramaController', () => {
   let controller: DramaController;
@@ -35,11 +35,7 @@ describe('DramaController', () => {
         return Promise.resolve({
           id: 1,
           ...mockCreateDramaDto,
-          kanaStatus: 'とらまたいとる',
-          comments: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        } as DramaEntity);
+        } as Drama);
       },
     };
 

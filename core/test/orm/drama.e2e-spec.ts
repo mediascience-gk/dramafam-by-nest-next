@@ -1,27 +1,39 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DramaModule } from '../../src/entries/drama.module';
-import { DramaRepository } from '../../src/entries/drama.repository';
-import { CreateDramaDto } from '../../src/entries/dto/create-drama.dto';
+import { DramaModule } from '../../src/drama.module';
+import { DramaEntity } from '../../src/interface-adapter/gateways/entities/drama.entity';
+import { Repository } from 'typeorm';
+import { convertKanaToKanaStatus } from '../../src/utils/kanaStatus/convertKanaToKanaStatus';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
+import { CommonModule } from '../../src/common/common.module';
 import { AppModule } from '../../src/app.module';
-import { DramaEntity } from '../../src/entities/drama.entity';
 
 // ORM の CRUD のテストをしたい
 describe(DramaModule, () => {
-  let dramaRepository: DramaRepository;
+  let dramaRepository: Repository<DramaEntity>;
   let drama: DramaEntity;
   let module: TestingModule;
 
+  @Injectable()
+  class StubDramaRepository {
+    constructor(
+      @InjectRepository(DramaEntity)
+      readonly dramaRepository: Repository<DramaEntity>,
+    ) {}
+  }
+
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [AppModule],
-      providers: [],
+      imports: [AppModule, TypeOrmModule.forFeature([DramaEntity])],
+      providers: [StubDramaRepository],
     }).compile();
 
     // repositoryのインスタンスを取得
+    const stubRepository = module.get<StubDramaRepository>(StubDramaRepository);
+    dramaRepository = stubRepository.dramaRepository;
+
     const app = module.createNestApplication();
     await app.init();
-
-    dramaRepository = app.get<DramaRepository>(DramaRepository);
 
     // DBクリア
     await dramaRepository.query('SET FOREIGN_KEY_CHECKS=0;');
@@ -31,14 +43,19 @@ describe(DramaModule, () => {
 
   beforeEach(async () => {
     // given => has a model (dramaRepository.create())
-    const createDramaDto: CreateDramaDto = {
+    const mockDramaEntity = {
       title: 'DramaTitle1',
       permalink: 'drama-title',
       kana: 'ドラマタイトル',
+      kanaStatus: convertKanaToKanaStatus('ドラマタイトル'),
       startAt: '2022-04-01',
       endAt: null,
+      comments: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    drama = await dramaRepository.createDrama(createDramaDto);
+    const createdDrama = await dramaRepository.create(mockDramaEntity);
+    drama = await dramaRepository.save(createdDrama);
   });
 
   afterEach(async () => {
@@ -56,17 +73,22 @@ describe(DramaModule, () => {
     // given => zero model
 
     // when (custom dramaRepository)
-    const createDramaDto: CreateDramaDto = {
+    const mockDramaEntity = {
       title: 'DramaTitle1',
       permalink: 'drama-title',
       kana: 'ドラマタイトル',
+      kanaStatus: convertKanaToKanaStatus('ドラマタイトル'),
       startAt: '2022-04-01',
       endAt: null,
+      comments: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    const createdDrama = await dramaRepository.createDrama(createDramaDto);
+    const createdDrama = await dramaRepository.create(mockDramaEntity);
+    const drama = await dramaRepository.save(createdDrama);
 
     // then
-    expect(createdDrama.title).toEqual('DramaTitle1');
+    expect(drama.title).toEqual('DramaTitle1');
   });
 
   it('Read a model', async () => {

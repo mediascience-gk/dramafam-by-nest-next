@@ -1,24 +1,37 @@
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import { DramaModule } from '../src/entries/drama.module';
+import { INestApplication, Injectable } from '@nestjs/common';
+import { DramaModule } from '../src/drama.module';
 import { AppModule } from '../src/app.module';
-import { DramaRepository } from '../src/entries/drama.repository';
+import { Repository } from 'typeorm';
+import { DramaEntity } from '../src/interface-adapter/gateways/entities/drama.entity';
+import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
+import { CommonModule } from '../src/common/common.module';
 
 describe(DramaModule, () => {
   let module: TestingModule;
   let app: INestApplication;
-  let dramaRepository: DramaRepository;
+  let dramaRepository: Repository<DramaEntity>;
+
+  @Injectable()
+  class StubDramaRepository {
+    constructor(
+      @InjectRepository(DramaEntity)
+      readonly dramaRepository: Repository<DramaEntity>,
+    ) {}
+  }
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule, TypeOrmModule.forFeature([DramaEntity])],
+      providers: [StubDramaRepository],
     }).compile();
+
+    const stubRepository = module.get<StubDramaRepository>(StubDramaRepository);
+    dramaRepository = stubRepository.dramaRepository;
 
     app = module.createNestApplication();
     await app.init();
-
-    dramaRepository = app.get<DramaRepository>(DramaRepository);
 
     // DBクリア
     await dramaRepository.query('SET FOREIGN_KEY_CHECKS=0;');

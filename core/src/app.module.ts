@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
-import { DramaModule } from './entries/drama.module';
-import { CommentModule } from './comments/comment.module';
+import { DramaModule } from './drama.module';
+import { CommentModule } from './comment.module';
 import { CommonModule } from './common/common.module';
 
 @Module({

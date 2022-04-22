@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DramaService } from './drama.service';
-import { DramaRepository } from './drama.repository';
+import { StaticDramaRepository } from '../interface-adapter/gateways/drama/drama.repository';
+import { DramaRepository } from '../models/drama/drama.repository';
 
 const mockDramaRepository = () => ({});
 
@@ -12,12 +13,12 @@ describe('DramaService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DramaService,
-        { provide: DramaRepository, useFactory: mockDramaRepository },
+        { provide: StaticDramaRepository, useFactory: mockDramaRepository },
       ],
     }).compile();
 
     service = module.get<DramaService>(DramaService);
-    dramaRepository = module.get<DramaRepository>(DramaRepository);
+    dramaRepository = module.get<DramaRepository>(StaticDramaRepository);
   });
 
   it('should be defined', () => {
