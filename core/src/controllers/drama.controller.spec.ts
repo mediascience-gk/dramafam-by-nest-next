@@ -8,12 +8,6 @@ import { DramaService } from '../services/drama.service';
 import { CreateDramaDto } from '../services/dto/create-drama.dto';
 import { Drama } from '../models/drama/drama';
 import { CommentService } from '../services/comment.service';
-import { StaticCommentRepository } from '../interface-adapter/gateways/comment/comment.repository';
-import { CommentEntity } from '../interface-adapter/gateways/entities/comment.entity';
-import { DramaModule } from '../drama.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DramaEntity } from '../interface-adapter/gateways/entities/drama.entity';
-import { Comment } from '../models/comment/comment';
 
 describe('DramaController', () => {
   let controller: DramaController;
