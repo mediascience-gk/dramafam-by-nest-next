@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { convertKanaToKanaStatus } from '../../src/utils/kanaStatus/convertKanaToKanaStatus';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { CommonModule } from '../../src/common/common.module';
+import { CommonModule } from '../../src/common.module';
 import { AppModule } from '../../src/app.module';
 
 // ORM の CRUD のテストをしたい

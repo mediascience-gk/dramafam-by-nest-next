@@ -6,7 +6,7 @@ import { AppModule } from '../src/app.module';
 import { Repository } from 'typeorm';
 import { DramaEntity } from '../src/interface-adapter/gateways/entities/drama.entity';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { CommonModule } from '../src/common/common.module';
+import { CommonModule } from '../src/common.module';
 
 describe(DramaModule, () => {
   let module: TestingModule;
