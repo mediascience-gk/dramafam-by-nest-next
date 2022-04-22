@@ -7,10 +7,18 @@ import { DramaController } from './drama.controller';
 import { DramaService } from '../services/drama.service';
 import { CreateDramaDto } from '../services/dto/create-drama.dto';
 import { Drama } from '../models/drama/drama';
+import { CommentService } from '../services/comment.service';
+import { StaticCommentRepository } from '../interface-adapter/gateways/comment/comment.repository';
+import { CommentEntity } from '../interface-adapter/gateways/entities/comment.entity';
+import { DramaModule } from '../drama.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DramaEntity } from '../interface-adapter/gateways/entities/drama.entity';
+import { Comment } from '../models/comment/comment';
 
 describe('DramaController', () => {
   let controller: DramaController;
-  let mockDramaService: Partial<DramaService>;
+  let stubDramaService: Partial<DramaService>;
+  let stubCommentService: Partial<CommentService>;
   let mockCreateDramaDto: CreateDramaDto;
 
   const validateDto = (
@@ -30,7 +38,7 @@ describe('DramaController', () => {
       endAt: null,
     };
 
-    mockDramaService = {
+    stubDramaService = {
       create: (createDramaDto: CreateDramaDto) => {
         return Promise.resolve({
           id: 1,
@@ -39,9 +47,14 @@ describe('DramaController', () => {
       },
     };
 
+    stubCommentService = {};
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [DramaController],
-      providers: [{ provide: DramaService, useValue: mockDramaService }],
+      providers: [
+        { provide: DramaService, useValue: stubDramaService },
+        { provide: CommentService, useValue: stubCommentService },
+      ],
     }).compile();
 
     controller = module.get<DramaController>(DramaController);
