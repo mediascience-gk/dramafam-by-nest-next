@@ -1,49 +1,36 @@
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, Injectable } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { DramaModule } from '../src/drama.module';
 import { AppModule } from '../src/app.module';
-import { Repository } from 'typeorm';
 import { DramaEntity } from '../src/interface-adapter/gateways/entities/drama.entity';
-import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { CommonModule } from '../src/common.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DramaSeeder } from '../dist/interface-adapter/gateways/seeders/drama.seeder';
 
 describe(DramaModule, () => {
   let module: TestingModule;
   let app: INestApplication;
-  let dramaRepository: Repository<DramaEntity>;
-
-  @Injectable()
-  class StubDramaRepository {
-    constructor(
-      @InjectRepository(DramaEntity)
-      readonly dramaRepository: Repository<DramaEntity>,
-    ) {}
-  }
+  let seeder: DramaSeeder;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [AppModule, TypeOrmModule.forFeature([DramaEntity])],
-      providers: [StubDramaRepository],
+      providers: [DramaSeeder],
     }).compile();
-
-    const stubRepository = module.get<StubDramaRepository>(StubDramaRepository);
-    dramaRepository = stubRepository.dramaRepository;
 
     app = module.createNestApplication();
     await app.init();
+  });
 
-    // DBクリア
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=0;');
-    await dramaRepository.clear();
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=1;');
+  beforeEach(async () => {
+    seeder = module.get<DramaSeeder>(DramaSeeder);
+    await seeder.seed();
   });
 
   afterEach(async () => {
     // DBクリア
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=0;');
-    await dramaRepository.clear();
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=1;');
+    seeder = module.get<DramaSeeder>(DramaSeeder);
+    await seeder.refresh();
   });
 
   afterAll(async () => {
@@ -55,7 +42,7 @@ describe(DramaModule, () => {
   });
 
   it('/POST drama', () => {
-    const postedTitle = 'DramaTitle';
+    const postedTitle = 'Test: DramaTitle';
 
     return request(app.getHttpServer())
       .post('/drama')

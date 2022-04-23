@@ -5,14 +5,15 @@ import { Repository } from 'typeorm';
 import { convertKanaToKanaStatus } from '../../src/utils/kanaStatus/convertKanaToKanaStatus';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import { CommonModule } from '../../src/common.module';
 import { AppModule } from '../../src/app.module';
+import { DramaSeeder } from '../../dist/interface-adapter/gateways/seeders/drama.seeder';
 
 // ORM の CRUD のテストをしたい
 describe(DramaModule, () => {
   let dramaRepository: Repository<DramaEntity>;
   let drama: DramaEntity;
   let module: TestingModule;
+  let seeder: DramaSeeder;
 
   @Injectable()
   class StubDramaRepository {
@@ -25,7 +26,7 @@ describe(DramaModule, () => {
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [AppModule, TypeOrmModule.forFeature([DramaEntity])],
-      providers: [StubDramaRepository],
+      providers: [StubDramaRepository, DramaSeeder],
     }).compile();
 
     // repositoryのインスタンスを取得
@@ -36,15 +37,14 @@ describe(DramaModule, () => {
     await app.init();
 
     // DBクリア
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=0;');
-    await dramaRepository.clear();
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=1;');
+    seeder = module.get<DramaSeeder>(DramaSeeder);
+    await seeder.refresh();
   });
 
   beforeEach(async () => {
     // given => has a model (dramaRepository.create())
     const mockDramaEntity = {
-      title: 'DramaTitle1',
+      title: 'Test: DramaTitle1',
       permalink: 'drama-title',
       kana: 'ドラマタイトル',
       kanaStatus: convertKanaToKanaStatus('ドラマタイトル'),
@@ -60,9 +60,8 @@ describe(DramaModule, () => {
 
   afterEach(async () => {
     // DBクリア
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=0;');
-    await dramaRepository.clear();
-    await dramaRepository.query('SET FOREIGN_KEY_CHECKS=1;');
+    seeder = module.get<DramaSeeder>(DramaSeeder);
+    await seeder.refresh();
   });
 
   afterAll(async () => {
@@ -74,7 +73,7 @@ describe(DramaModule, () => {
 
     // when (custom dramaRepository)
     const mockDramaEntity = {
-      title: 'DramaTitle1',
+      title: 'Test:CreateDramaTitle',
       permalink: 'drama-title',
       kana: 'ドラマタイトル',
       kanaStatus: convertKanaToKanaStatus('ドラマタイトル'),
@@ -85,10 +84,10 @@ describe(DramaModule, () => {
       updatedAt: new Date(),
     };
     const createdDrama = await dramaRepository.create(mockDramaEntity);
-    const drama = await dramaRepository.save(createdDrama);
+    await dramaRepository.save(createdDrama);
 
     // then
-    expect(drama.title).toEqual('DramaTitle1');
+    expect(createdDrama.title).toEqual('Test:CreateDramaTitle');
   });
 
   it('Read a model', async () => {
@@ -106,7 +105,7 @@ describe(DramaModule, () => {
     const title = drama.title;
 
     // when
-    drama.title = 'DramaTitle2';
+    drama.title = 'Test:DramaTitle2';
     await dramaRepository.save(drama);
 
     // then
