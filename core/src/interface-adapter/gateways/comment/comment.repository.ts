@@ -1,7 +1,6 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CommentEntity } from '../entities/comment.entity';
 import { CreateCommentDto } from '../../../services/dto/create-comment.dto';
-import { DramaEntity } from '../entities/drama.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from '../../../models/comment/comment';
