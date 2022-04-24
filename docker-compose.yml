@@ -27,3 +27,22 @@ services:
       - 8080:80
     links:
       - mysql:db
+
+# 村井さんの環境
+# version: '3.2'
+#
+# services:
+#   db:
+#     image: mariadb
+#     restart: always
+#     ports:
+#       - "3306:3306"
+#     environment:
+#       MARIADB_ROOT_PASSWORD: example
+#       MARIADB_DATABASE: app
+#
+#   adminer:
+#     image: adminer
+#     restart: always
+#     ports:
+#       - "8080:8080"
