@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DramaModule } from '../../src/drama.module';
+import { DramaModule } from '../../src/modules/drama.module';
 import { DramaEntity } from '../../src/interface-adapter/gateways/entities/drama.entity';
 import { Repository } from 'typeorm';
 import { convertKanaToKanaStatus } from '../../src/utils/kanaStatus/convertKanaToKanaStatus';
@@ -33,12 +33,12 @@ describe(DramaModule, () => {
     const stubRepository = module.get<StubDramaRepository>(StubDramaRepository);
     dramaRepository = stubRepository.dramaRepository;
 
+    // DBクリア
+    // seeder = module.get<DramaSeeder>(DramaSeeder);
+    // await seeder.refresh();
+
     const app = module.createNestApplication();
     await app.init();
-
-    // DBクリア
-    seeder = module.get<DramaSeeder>(DramaSeeder);
-    await seeder.refresh();
   });
 
   beforeEach(async () => {

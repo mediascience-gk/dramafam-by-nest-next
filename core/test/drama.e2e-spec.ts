@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { DramaModule } from '../src/drama.module';
+import { DramaModule } from '../src/modules/drama.module';
 import { AppModule } from '../src/app.module';
 import { DramaEntity } from '../src/interface-adapter/gateways/entities/drama.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
