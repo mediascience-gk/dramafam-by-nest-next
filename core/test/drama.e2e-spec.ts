@@ -18,27 +18,29 @@ describe(DramaModule, () => {
       providers: [DramaSeeder],
     }).compile();
 
+    seeder = module.get<DramaSeeder>(DramaSeeder);
+
     app = module.createNestApplication();
     await app.init();
   });
 
   beforeEach(async () => {
-    seeder = module.get<DramaSeeder>(DramaSeeder);
+    await seeder.refresh();
     await seeder.seed();
   });
 
-  afterEach(async () => {
-    // DBクリア
-    seeder = module.get<DramaSeeder>(DramaSeeder);
-    await seeder.refresh();
-  });
-
   afterAll(async () => {
+    await seeder.refresh();
     await module.close();
   });
 
   it(`/GET drama`, () => {
-    return request(app.getHttpServer()).get('/drama').expect(200);
+    return request(app.getHttpServer())
+      .get('/drama')
+      .expect(200)
+      .then((res) => {
+        console.log(res.body);
+      });
   });
 
   it('/POST drama', () => {
