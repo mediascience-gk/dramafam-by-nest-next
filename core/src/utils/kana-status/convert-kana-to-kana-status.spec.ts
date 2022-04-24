@@ -1,4 +1,4 @@
-import { convertKanaToKanaStatus } from './convertKanaToKanaStatus';
+import { convertKanaToKanaStatus } from './convert-kana-to-kana-status';
 
 describe('convertKanaToKanaStatus', () => {
   it('カタカナの変換', () => {

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DramaModule } from '../../src/modules/drama.module';
 import { DramaEntity } from '../../src/interface-adapter/gateways/entities/drama.entity';
 import { Repository } from 'typeorm';
-import { convertKanaToKanaStatus } from '../../src/utils/kanaStatus/convertKanaToKanaStatus';
+import { convertKanaToKanaStatus } from '../../src/utils/kana-status/convert-kana-to-kana-status';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { AppModule } from '../../src/app.module';

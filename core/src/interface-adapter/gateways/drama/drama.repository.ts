@@ -1,6 +1,6 @@
 import { DramaEntity } from '../entities/drama.entity';
 import { CreateDramaDto } from '../../../services/dto/create-drama.dto';
-import { convertKanaToKanaStatus } from '../../../utils/kanaStatus/convertKanaToKanaStatus';
+import { convertKanaToKanaStatus } from '../../../utils/kana-status/convert-kana-to-kana-status';
 import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,45 +15,23 @@ export class StaticDramaRepository implements DramaRepository {
   ) {}
 
   async create(createDramaDto: CreateDramaDto): Promise<Drama> {
-    const { title, permalink, kana, startAt, endAt } = createDramaDto;
-    const kanaStatus = convertKanaToKanaStatus(kana);
-    const createdAt = new Date();
-    const updatedAt = new Date();
+    const kanaStatus = convertKanaToKanaStatus(createDramaDto.kana);
+
     const drama = this.repository.create({
-      title,
-      permalink,
-      kana,
+      ...createDramaDto,
       kanaStatus,
-      startAt,
-      endAt,
-      createdAt,
-      updatedAt,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     await this.repository.save(drama);
-    const { id } = drama;
 
-    return new Drama(
-      id,
-      title,
-      permalink,
-      kana,
-      new Date(startAt),
-      endAt ? new Date(endAt) : undefined,
-    );
+    return this.convertEntityToModel(drama);
   }
 
   async findAll(): Promise<Drama[]> {
     const dramaEntities = await this.repository.find();
     const dramas = dramaEntities.map<Drama>((drama: DramaEntity) => {
-      const { id, title, permalink, kana, startAt, endAt } = drama;
-      return new Drama(
-        id,
-        title,
-        permalink,
-        kana,
-        new Date(startAt),
-        endAt ? new Date(endAt) : undefined,
-      );
+      return this.convertEntityToModel(drama);
     });
     return dramas;
   }
@@ -65,7 +43,15 @@ export class StaticDramaRepository implements DramaRepository {
     if (!drama) {
       throw new NotFoundException('該当ドラマは見つかりませんでした');
     }
-    const { title, permalink, kana, startAt, endAt } = drama;
+    return this.convertEntityToModel(drama);
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.repository.delete(id);
+  }
+
+  private convertEntityToModel(dramaEntity: DramaEntity): Drama {
+    const { id, title, permalink, kana, startAt, endAt } = dramaEntity;
     return new Drama(
       id,
       title,
@@ -74,9 +60,5 @@ export class StaticDramaRepository implements DramaRepository {
       new Date(startAt),
       endAt ? new Date(endAt) : undefined,
     );
-  }
-
-  async delete(id: number): Promise<void> {
-    await this.repository.delete(id);
   }
 }
