@@ -7,14 +7,18 @@ actors ||--o{ casts: ""
 casts ||--o{ reputations: ""
 votes ||--o{ reputations: ""
 casts ||--o{ votes: ""
-reputations ||--o{ likesOfReputation: ""
-reviews ||--o{ likesOfReview: ""
+reputations ||--o{ likes_of_reputation: ""
+reviews ||--o{ likes_of_review: ""
 users ||--o{ reviews: ""
 users ||--o{ reputations: ""
 reputations ||--o{ reports: ""
 reviews ||--o{ reports: ""
 reputations ||--o{ reputations: ""
 reviews ||--o{ reviews: ""
+dramas ||--o{ drama_seasons: ""
+seasons ||--o{ drama_seasons: ""
+dramas ||--o{ schedules: ""
+schedules ||--o{ tv_stations: ""
 
 users {
     string name
@@ -34,6 +38,25 @@ dramas {
     string oldPermalink
     string startAt
     string endAt
+}
+
+drama_seasons {
+    drama_id
+    season_id
+}
+
+seasons {
+    number year
+    number month
+}
+
+schedules {
+    date startAt
+    date endAt
+}
+
+tv_stations {
+    string name
 }
 
 casts {
@@ -70,11 +93,11 @@ reputations {
     string userAgent
 }
 
-likesOfReputation {
+likes_of_reputation {
     enum type 
 }
 
-likesOfReview {
+likes_of_review {
     enum type
 }
 
