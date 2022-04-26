@@ -4,7 +4,7 @@ left to right direction
 actor "ユーザー" as user
 actor "管理者" as admin
 actor "スタッフ" as staff
-rectangle サイト {
+rectangle ドラマのレビュー投稿システム {
     rectangle ドラマ {
         usecase (50音順のドラマ一覧を見る) as showDramaList
         usecase (ドラマを追加する) as addDrama
@@ -30,10 +30,10 @@ admin --|> user
 staff --|> user
 user -- showDramaReview
 user -- postDramaReview
-user -- LikeDramaReview
+user -- likeDramaReview
 user -- showCastReputation
 user -- postCastReputation
-user -- LikeCastReputation
+user -- likeCastReputation
 user -- showDramaList
 user -- showActorList
 user -- showActorReputationList
