@@ -1,12 +1,16 @@
 ```mermaid
 classDiagram
-    DramaRepository --|> StaticDramaRepository: implements
+    DramaRepository <|-- StaticDramaRepository: implements
     DramaService ..> StaticDramaRepository: Dependency
     DramaController ..> DramaService: Dependency
     StaticDramaRepository ..> Drama: Dependency
     StaticDramaRepository ..> Repository: Dependency
     Repository ..> DramaEntity: Dependency
-    StaticDramaRepository ..> CreateDramaDto: Dependency
+    DramaController ..> CreateDramaDto: use
+    DramaService ..> CreateDramaDto: use
+    StaticDramaRepository ..> CreateDramaDto: use
+    DramaController ..> Drama: use
+    DramaService ..> Drama: use
     class DramaRepository {
         +findById()
         +findAll()
