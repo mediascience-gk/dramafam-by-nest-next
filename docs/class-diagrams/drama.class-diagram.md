@@ -3,6 +3,7 @@ classDiagram
     DramaRepository <|-- StaticDramaRepository: implements
     DramaService ..> StaticDramaRepository: Dependency
     DramaController ..> DramaService: Dependency
+    DramaController ..> ReviewService: Dependency
     StaticDramaRepository ..> Drama: Dependency
     StaticDramaRepository ..> Repository: Dependency
     Repository ..> DramaEntity: Dependency
@@ -30,7 +31,7 @@ classDiagram
         +show()
         +index()
         +create()
-        +destory()
+        +destroy()
     }
     class Drama {
         + id: int
@@ -60,4 +61,6 @@ classDiagram
         + createdAt: date
         + updatedAt: date
     }
+    
+    Review ..> Drama: use
 ```

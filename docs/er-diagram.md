@@ -132,7 +132,7 @@ contacts {
     string title
     string body
     string ipAddress
-    strin localHost
+    string localHost
     string localToken
     string userAgent
 }
