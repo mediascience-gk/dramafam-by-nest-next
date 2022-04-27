@@ -7,12 +7,12 @@ import { DramaController } from './drama.controller';
 import { DramaService } from '../services/drama.service';
 import { CreateDramaDto } from '../services/dto/create-drama.dto';
 import { Drama } from '../models/drama/drama';
-import { CommentService } from '../services/comment.service';
+import { ReviewService } from '../services/review.service';
 
 describe('DramaController', () => {
   let controller: DramaController;
   let stubDramaService: Partial<DramaService>;
-  let stubCommentService: Partial<CommentService>;
+  let stubCommentService: Partial<ReviewService>;
   let mockCreateDramaDto: CreateDramaDto;
 
   const validateDto = (
@@ -47,7 +47,7 @@ describe('DramaController', () => {
       controllers: [DramaController],
       providers: [
         { provide: DramaService, useValue: stubDramaService },
-        { provide: CommentService, useValue: stubCommentService },
+        { provide: ReviewService, useValue: stubCommentService },
       ],
     }).compile();
 

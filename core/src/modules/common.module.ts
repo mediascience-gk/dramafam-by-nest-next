@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CommentEntity } from '../interface-adapter/gateways/entities/comment.entity';
+import { ReviewEntity } from '../interface-adapter/gateways/entities/review.entity';
 import { DramaEntity } from '../interface-adapter/gateways/entities/drama.entity';
 
 @Module({
@@ -12,7 +12,7 @@ import { DramaEntity } from '../interface-adapter/gateways/entities/drama.entity
       username: 'user',
       password: 'password',
       database: 'test',
-      entities: [CommentEntity, DramaEntity],
+      entities: [ReviewEntity, DramaEntity],
       synchronize: true,
     }),
   ],

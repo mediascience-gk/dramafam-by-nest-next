@@ -12,6 +12,7 @@ classDiagram
     StaticDramaRepository ..> CreateDramaDto: use
     DramaController ..> Drama: use
     DramaService ..> Drama: use
+    Drama ..> Season: use
     class DramaRepository {
         +findById()
         +findAll()
@@ -38,6 +39,7 @@ classDiagram
         + permalink: string
         + title: string
         + kana: string
+        + seasons: Season
         - _startAt: date
         - _endAt: date
         + startAt()
@@ -60,6 +62,8 @@ classDiagram
         + endAt: date
         + createdAt: date
         + updatedAt: date
+    }
+    class Seasons {
     }
     
     Review ..> Drama: use

@@ -1,22 +1,22 @@
 import { Repository } from 'typeorm';
-import { CommentEntity } from '../entities/comment.entity';
-import { CreateCommentDto } from '../../../services/dto/create-comment.dto';
+import { ReviewEntity } from '../entities/review.entity';
+import { CreateReviewDto } from '../../../services/dto/create-review.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Comment } from '../../../models/comment/comment';
+import { Review } from '../../../models/review/review';
 import { Drama } from '../../../models/drama/drama';
-import { CommentRepository } from '../../../models/comment/comment.repository';
+import { ReviewRepository } from '../../../models/review/review.repository';
 import { StaticDramaRepository } from '../drama/drama.repository';
 
 @Injectable()
-export class StaticCommentRepository implements CommentRepository {
+export class StaticReviewRepository implements ReviewRepository {
   constructor(
-    @InjectRepository(CommentEntity)
-    private readonly repository: Repository<CommentEntity>,
+    @InjectRepository(ReviewEntity)
+    private readonly repository: Repository<ReviewEntity>,
     private readonly dramaRepository: StaticDramaRepository,
   ) {}
 
-  async findById(id: number): Promise<Comment> {
+  async findById(id: number): Promise<Review> {
     const commentEntity = await this.repository.findOne({ id });
     if (!commentEntity) {
       throw new NotFoundException('該当コメントは見つかりませんでした');
@@ -30,7 +30,7 @@ export class StaticCommentRepository implements CommentRepository {
       new Date(dramaEntity.startAt),
       dramaEntity.endAt ? new Date(dramaEntity.endAt) : undefined,
     );
-    return new Comment(id, body, drama);
+    return new Review(id, body, drama);
   }
 
   async findAllByDramaId(dramaId: number) {
@@ -52,12 +52,12 @@ export class StaticCommentRepository implements CommentRepository {
         new Date(drama.startAt),
         drama.endAt ? new Date(drama.endAt) : undefined,
       );
-      return new Comment(id, body, d);
+      return new Review(id, body, d);
     });
     return comments;
   }
 
-  async create(createCommentDto: CreateCommentDto) {
+  async create(createCommentDto: CreateReviewDto) {
     const { body, dramaId } = createCommentDto;
 
     const dramaEntity = await this.dramaRepository.findById(dramaId);
@@ -65,7 +65,7 @@ export class StaticCommentRepository implements CommentRepository {
       throw new NotFoundException('該当のドラマが見つかりませんでした');
     }
 
-    const commentEntity: CommentEntity = await this.repository.create({
+    const commentEntity: ReviewEntity = await this.repository.create({
       body: body,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -81,7 +81,7 @@ export class StaticCommentRepository implements CommentRepository {
       new Date(dramaEntity.startAt),
       dramaEntity.endAt ? new Date(dramaEntity.endAt) : undefined,
     );
-    return new Comment(commentEntity.id, body, drama);
+    return new Review(commentEntity.id, body, drama);
   }
 
   async delete(id: number): Promise<void> {

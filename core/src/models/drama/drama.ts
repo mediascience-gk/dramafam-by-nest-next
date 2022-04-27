@@ -1,5 +1,3 @@
-import { CommentService } from '../../services/comment.service';
-
 export class Drama {
   constructor(
     public readonly id: number,
@@ -9,10 +7,6 @@ export class Drama {
     private readonly _startAt: Date,
     private readonly _endAt?: Date,
   ) {}
-
-  // async comments(): Promise<Comment[]> {
-  //   return await commentService.findAllByDramaId(this.id);
-  // }
 
   get startAt(): string {
     return this._startAt.toString();

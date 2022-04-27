@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { CommentEntity } from './comment.entity';
+import { ReviewEntity } from './review.entity';
 
 @Entity('dramas')
 export class DramaEntity {
@@ -32,8 +32,8 @@ export class DramaEntity {
   @Column({ nullable: true, type: 'varchar', width: 64 })
   endAt: string | null;
 
-  @OneToMany(() => CommentEntity, (comment) => comment.drama, { cascade: true })
-  comments: CommentEntity[];
+  @OneToMany(() => ReviewEntity, (review) => review.drama, { cascade: true })
+  reviews: ReviewEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

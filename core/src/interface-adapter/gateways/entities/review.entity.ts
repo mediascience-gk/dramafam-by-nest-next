@@ -9,15 +9,15 @@ import {
 
 import { DramaEntity } from './drama.entity';
 
-@Entity('comments')
-export class CommentEntity {
+@Entity('reviews')
+export class ReviewEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column('text')
   body: string;
 
-  @ManyToOne(() => DramaEntity, (drama) => drama.comments, {
+  @ManyToOne(() => DramaEntity, (drama) => drama.reviews, {
     onDelete: 'CASCADE',
     orphanedRowAction: 'delete',
   })

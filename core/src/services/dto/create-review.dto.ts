@@ -1,7 +1,7 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { Expose } from 'class-transformer';
 
-export class CreateCommentDto {
+export class CreateReviewDto {
   @IsString()
   @IsNotEmpty()
   body: string;

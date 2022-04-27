@@ -1,20 +1,20 @@
-import { CommentRepository } from '../models/comment/comment.repository';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { CommentService } from './comment.service';
+import { ReviewRepository } from '../models/review/review.repository';
+import { CreateReviewDto } from './dto/create-review.dto';
+import { ReviewService } from './review.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { StaticCommentRepository } from '../interface-adapter/gateways/comment/comment.repository';
-import { Comment } from '../models/comment/comment';
+import { StaticReviewRepository } from '../interface-adapter/gateways/review/review.repository';
+import { Review } from '../models/review/review';
 import { DramaService } from './drama.service';
 import { Drama } from '../models/drama/drama';
 
 describe('DramaService', () => {
-  let service: CommentService;
+  let service: ReviewService;
   let stubDramaService: Partial<DramaService>;
-  let stubCommentRepository: Partial<CommentRepository>;
-  let mockCreateCommentDto: CreateCommentDto;
+  let stubReviewRepository: Partial<ReviewRepository>;
+  let mockCreateReviewDto: CreateReviewDto;
 
   beforeEach(async () => {
-    mockCreateCommentDto = {
+    mockCreateReviewDto = {
       body: 'コメント',
       dramaId: 1,
     };
@@ -30,8 +30,8 @@ describe('DramaService', () => {
       },
     };
 
-    stubCommentRepository = {
-      create: (createCommentDto: CreateCommentDto) => {
+    stubReviewRepository = {
+      create: (createReviewDto: CreateReviewDto) => {
         return Promise.resolve({
           id: 1,
           body: 'コメント',
@@ -41,7 +41,7 @@ describe('DramaService', () => {
             permalink: 'drama-title',
             kana: 'ドラマタイトル',
           },
-        } as Comment);
+        } as Review);
       },
       delete: (id) => {
         return Promise.resolve();
@@ -49,13 +49,13 @@ describe('DramaService', () => {
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CommentService,
+        ReviewService,
         { provide: DramaService, useValue: stubDramaService },
-        { provide: StaticCommentRepository, useValue: stubCommentRepository },
+        { provide: StaticReviewRepository, useValue: stubReviewRepository },
       ],
     }).compile();
 
-    service = module.get<CommentService>(CommentService);
+    service = module.get<ReviewService>(ReviewService);
   });
 
   it('should be defined', () => {
@@ -63,7 +63,7 @@ describe('DramaService', () => {
   });
 
   it('create', async () => {
-    const drama = await service.create(mockCreateCommentDto);
+    const drama = await service.create(mockCreateReviewDto);
     expect(drama.id).toBe(1);
   });
 
