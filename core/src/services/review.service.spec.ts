@@ -15,6 +15,17 @@ describe('DramaService', () => {
 
   beforeEach(async () => {
     mockCreateReviewDto = {
+      commentator: '投稿者',
+      age: '10代',
+      gender: '女性',
+      ratingOfGeneral: 5,
+      ratingOfStory: 5,
+      ratingOfCast: 5,
+      ratingOfProduction: 5,
+      ratingOfMusic: 5,
+      ratingOfImpression: 5,
+      ratingOfComedy: 5,
+      ratingOfThrill: 5,
       body: 'コメント',
       dramaId: 1,
     };

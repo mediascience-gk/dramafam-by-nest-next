@@ -5,14 +5,53 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  TreeParent,
 } from 'typeorm';
 
 import { DramaEntity } from './drama.entity';
+import { Age, AllAge } from './enum/age.enum';
+import { AllGender, Gender } from './enum/gender.enum';
 
 @Entity('reviews')
 export class ReviewEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @TreeParent({ onDelete: 'CASCADE' })
+  parent: ReviewEntity;
+
+  @Column({ nullable: true, type: 'varchar', width: 80 })
+  commentator: string | null;
+
+  @Column({ nullable: true, type: 'enum', enum: AllAge })
+  age: Age | null;
+
+  @Column({ nullable: true, type: 'enum', enum: AllGender })
+  gender: Gender | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfGeneral: number | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfStory: number | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfCast: number | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfProduction: number | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfMusic: number | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfImpression: number | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfComedy: number | null;
+
+  @Column({ nullable: true, type: 'tinyint' })
+  ratingOfThrill: number | null;
 
   @Column('text')
   body: string;

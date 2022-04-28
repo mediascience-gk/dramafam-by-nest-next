@@ -1,5 +1,5 @@
-import { Review } from './comment';
-import { CreateReviewDto } from '../../services/dto/create-comment.dto';
+import { Review } from './review';
+import { CreateReviewDto } from '../../services/dto/create-review.dto';
 
 export interface ReviewRepository {
   findById(id: number): Promise<Review>;

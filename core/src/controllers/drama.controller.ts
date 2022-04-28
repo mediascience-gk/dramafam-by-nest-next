@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { DramaService } from '../services/drama.service';
 import { CreateDramaDto } from '../services/dto/create-drama.dto';
 import { Drama } from '../models/drama/drama';
 import { ReviewService } from '../services/review.service';
+import { Request } from 'express';
 
 @Controller('drama')
 export class DramaController {
@@ -12,7 +13,12 @@ export class DramaController {
   ) {}
 
   @Post()
-  async create(@Body() createDramaDto: CreateDramaDto): Promise<Drama> {
+  async create(
+    @Body() createDramaDto: CreateDramaDto,
+    @Req() request: Request,
+  ): Promise<Drama> {
+    console.log(request.get('User-Agent'));
+    console.log(request.ip);
     return await this.dramaService.create(createDramaDto);
   }
 

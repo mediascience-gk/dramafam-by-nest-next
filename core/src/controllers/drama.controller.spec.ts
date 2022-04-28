@@ -1,19 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { ValidationError } from '@nestjs/common';
+import { INestApplication, ValidationError } from '@nestjs/common';
+import { Request } from 'express';
+import * as request from 'supertest';
 
 import { DramaController } from './drama.controller';
 import { DramaService } from '../services/drama.service';
 import { CreateDramaDto } from '../services/dto/create-drama.dto';
 import { Drama } from '../models/drama/drama';
 import { ReviewService } from '../services/review.service';
+import { createRequest } from 'node-mocks-http';
 
 describe('DramaController', () => {
+  let app: INestApplication;
   let controller: DramaController;
   let stubDramaService: Partial<DramaService>;
   let stubCommentService: Partial<ReviewService>;
   let mockCreateDramaDto: CreateDramaDto;
+  const req = createRequest();
 
   const validateDto = (
     cls: ClassConstructor<unknown>,
@@ -51,6 +56,9 @@ describe('DramaController', () => {
       ],
     }).compile();
 
+    app = module.createNestApplication();
+    await app.init();
+
     controller = module.get<DramaController>(DramaController);
   });
 
@@ -60,7 +68,7 @@ describe('DramaController', () => {
 
   describe('管理者が、正規のドラマ情報を送信すると、新規でドラマが追加される', () => {
     it('createメソッド', async () => {
-      const result = await controller.create(mockCreateDramaDto);
+      const result = await controller.create(mockCreateDramaDto, req);
       expect(result.title).toEqual(mockCreateDramaDto.title);
     });
 
