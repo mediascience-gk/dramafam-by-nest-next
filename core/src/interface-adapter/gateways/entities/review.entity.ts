@@ -9,8 +9,8 @@ import {
 } from 'typeorm';
 
 import { DramaEntity } from './drama.entity';
-import { Age, allAge } from './enum/age.enum';
-import { allGender, Gender } from './enum/gender.enum';
+import { Age, allAge } from '../../../services/dto/enum/age.enum';
+import { allGender, Gender } from '../../../services/dto/enum/gender.enum';
 
 @Entity('reviews')
 export class ReviewEntity {
