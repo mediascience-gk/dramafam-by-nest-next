@@ -9,8 +9,8 @@ import {
 } from 'typeorm';
 
 import { DramaEntity } from './drama.entity';
-import { Age, AllAge } from './enum/age.enum';
-import { AllGender, Gender } from './enum/gender.enum';
+import { Age, allAge } from './enum/age.enum';
+import { allGender, Gender } from './enum/gender.enum';
 
 @Entity('reviews')
 export class ReviewEntity {
@@ -23,10 +23,10 @@ export class ReviewEntity {
   @Column({ nullable: true, type: 'varchar', width: 80 })
   commentator: string | null;
 
-  @Column({ nullable: true, type: 'enum', enum: AllAge })
+  @Column({ nullable: true, type: 'enum', enum: allAge })
   age: Age | null;
 
-  @Column({ nullable: true, type: 'enum', enum: AllGender })
+  @Column({ nullable: true, type: 'enum', enum: allGender })
   gender: Gender | null;
 
   @Column({ nullable: true, type: 'tinyint' })

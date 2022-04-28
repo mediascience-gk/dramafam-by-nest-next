@@ -5,4 +5,4 @@ const Gender = {
 
 export type Gender = typeof Gender[keyof typeof Gender];
 
-export const AllGender = Object.values(Gender);
+export const allGender = Object.values(Gender);

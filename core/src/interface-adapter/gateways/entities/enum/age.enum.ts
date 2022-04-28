@@ -10,4 +10,4 @@ const Age = {
 
 export type Age = typeof Age[keyof typeof Age];
 
-export const AllAge = Object.values(Age);
+export const allAge = Object.values(Age);

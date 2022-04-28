@@ -7,8 +7,8 @@ import { Review } from '../../../models/review/review';
 import { Drama } from '../../../models/drama/drama';
 import { ReviewRepository } from '../../../models/review/review.repository';
 import { StaticDramaRepository } from '../drama/drama.repository';
-import { AllAge } from '../entities/enum/age.enum';
-import { AllGender } from '../entities/enum/gender.enum';
+import { allAge } from '../entities/enum/age.enum';
+import { allGender } from '../entities/enum/gender.enum';
 
 @Injectable()
 export class StaticReviewRepository implements ReviewRepository {
@@ -18,8 +18,8 @@ export class StaticReviewRepository implements ReviewRepository {
     private readonly dramaRepository: StaticDramaRepository,
   ) {}
 
-  static allAge = AllAge;
-  static allGender = AllGender;
+  static allAge = allAge;
+  static allGender = allGender;
 
   async findById(id: number): Promise<Review> {
     const commentEntity = await this.repository.findOne({ id });

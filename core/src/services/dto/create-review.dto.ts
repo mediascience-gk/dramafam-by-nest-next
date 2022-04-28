@@ -1,23 +1,27 @@
 import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
 import { Expose } from 'class-transformer';
 import { StaticReviewRepository as Repository } from '../../interface-adapter/gateways/review/review.repository';
-import {
-  Age,
-  AllAge,
-} from '../../interface-adapter/gateways/entities/enum/age.enum';
-import {
-  AllGender,
-  Gender,
-} from '../../interface-adapter/gateways/entities/enum/gender.enum';
+
+const { allAge, allGender } = Repository;
+
+const Age = {
+  ...allAge,
+} as const;
+type Age = typeof Age[keyof typeof Age];
+
+const Gender = {
+  ...allGender,
+} as const;
+type Gender = typeof Gender[keyof typeof Gender];
 
 export class CreateReviewDto {
   @IsString()
   commentator: string | null;
 
-  @IsEnum(AllAge)
+  @IsEnum(allAge)
   age: Age | null;
 
-  @IsEnum(AllGender)
+  @IsEnum(allGender)
   gender: Gender | null;
 
   @IsInt()
