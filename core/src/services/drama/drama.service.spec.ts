@@ -4,10 +4,12 @@ import { StaticDramaRepository } from '../../interface-adapter/gateways/drama/dr
 import { DramaRepository } from '../../models/drama/drama.repository';
 import { Drama } from '../../models/drama/drama';
 import { CreateDramaDto } from './dtos/create-drama.dto';
+import { ValidateCreateDramaDataService } from './validate-create-drama-data.service';
 
 describe('DramaService', () => {
   let service: DramaService;
   let stubDramaRepository: Partial<DramaRepository>;
+  let stubValidateCreateDramaDataService: Partial<ValidateCreateDramaDataService>;
   let mockCreateDramaDto: CreateDramaDto;
 
   beforeEach(async () => {
@@ -16,7 +18,6 @@ describe('DramaService', () => {
       permalink: 'drama-title',
       kana: 'ドラマタイトル',
       startAt: '2022-04-01',
-      endAt: null,
     };
 
     stubDramaRepository = {
@@ -56,10 +57,17 @@ describe('DramaService', () => {
         return Promise.resolve();
       },
     };
+    stubValidateCreateDramaDataService = {
+      validateDto: (createDramaDto: CreateDramaDto) => true,
+    };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DramaService,
         { provide: StaticDramaRepository, useValue: stubDramaRepository },
+        {
+          provide: ValidateCreateDramaDataService,
+          useValue: stubValidateCreateDramaDataService,
+        },
       ],
     }).compile();
 

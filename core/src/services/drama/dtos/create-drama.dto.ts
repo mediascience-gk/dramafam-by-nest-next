@@ -23,5 +23,5 @@ export class CreateDramaDto {
   @IsNotEmpty()
   startAt: string;
 
-  endAt: string | null;
+  endAt?: string;
 }

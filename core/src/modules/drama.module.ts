@@ -8,6 +8,7 @@ import { ReviewService } from '../services/review/review.service';
 import { StaticReviewRepository } from '../interface-adapter/gateways/review/review.repository';
 import { ReviewEntity } from '../interface-adapter/gateways/entities/review.entity';
 import { AvgOfDramaRatingService } from '../services/drama/avg-of-drama-rating.service';
+import { ValidateCreateDramaDataService } from '../services/drama/validate-create-drama-data.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DramaEntity, ReviewEntity])],
@@ -18,6 +19,7 @@ import { AvgOfDramaRatingService } from '../services/drama/avg-of-drama-rating.s
     StaticDramaRepository,
     StaticReviewRepository,
     AvgOfDramaRatingService,
+    ValidateCreateDramaDataService,
   ],
 })
 export class DramaModule {}

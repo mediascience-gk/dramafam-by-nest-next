@@ -67,6 +67,7 @@ const kanaDic = [
   ['ぶ', 'ふ'],
   ['べ', 'へ'],
   ['ぼ', 'ほ'],
+  ['ー', 'ー'],
 ];
 
 const kanaStatusList = [
@@ -114,4 +115,5 @@ const kanaStatusList = [
   'ろ',
   'よ',
   'ん',
+  'ー',
 ];

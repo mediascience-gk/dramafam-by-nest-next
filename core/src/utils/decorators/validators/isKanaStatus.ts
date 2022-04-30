@@ -85,4 +85,5 @@ const kanaStatusList = [
   'ろ',
   'よ',
   'ん',
+  'ー',
 ];

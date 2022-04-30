@@ -6,15 +6,19 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DramaRepository } from '../../../models/drama/drama.repository';
 import { Drama } from '../../../models/drama/drama';
+import { ValidateCreateDramaDataService } from '../../../services/drama/validate-create-drama-data.service';
 
 @Injectable()
 export class StaticDramaRepository implements DramaRepository {
   constructor(
     @InjectRepository(DramaEntity)
     private repository: Repository<DramaEntity>,
+    private validateCreateDramaDataService: ValidateCreateDramaDataService,
   ) {}
 
   async create(createDramaDto: CreateDramaDto): Promise<Drama> {
+    this.validateCreateDramaDataService.validateDto(createDramaDto);
+
     const kanaStatus = convertKanaToKanaStatus(createDramaDto.kana);
 
     const drama = this.repository.create({

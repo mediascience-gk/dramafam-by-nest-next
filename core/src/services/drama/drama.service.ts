@@ -2,12 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { StaticDramaRepository } from '../../interface-adapter/gateways/drama/drama.repository';
 import { CreateDramaDto } from './dtos/create-drama.dto';
 import { Drama } from '../../models/drama/drama';
+import { ValidateCreateDramaDataService } from './validate-create-drama-data.service';
 
 @Injectable()
 export class DramaService {
-  constructor(private dramaRepository: StaticDramaRepository) {}
+  constructor(
+    private dramaRepository: StaticDramaRepository,
+    private validateCreateDramaDataService: ValidateCreateDramaDataService,
+  ) {}
 
   async create(createDramaDto: CreateDramaDto): Promise<Drama> {
+    this.validateCreateDramaDataService.validateDto(createDramaDto);
     return await this.dramaRepository.create(createDramaDto);
   }
 

@@ -17,4 +17,9 @@ describe('convertKanaToKanaStatus', () => {
       convertKanaToKanaStatus('ぁぁぁぃぃぃぅぅぅぇぇぇぉぉぉ');
     expect(kanaStatus).toBe('あああいいいうううえええおおお');
   });
+
+  it('ーを含む変換', () => {
+    const kanaStatus = convertKanaToKanaStatus('スノーボード');
+    expect(kanaStatus).toBe('すのーほーと');
+  });
 });

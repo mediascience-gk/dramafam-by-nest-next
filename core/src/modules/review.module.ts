@@ -8,6 +8,7 @@ import { DramaService } from '../services/drama/drama.service';
 import { DramaEntity } from '../interface-adapter/gateways/entities/drama.entity';
 import { StaticDramaRepository } from '../interface-adapter/gateways/drama/drama.repository';
 import { ReviewEntity } from '../interface-adapter/gateways/entities/review.entity';
+import { ValidateCreateDramaDataService } from '../services/drama/validate-create-drama-data.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ReviewEntity, DramaEntity]), DramaModule],
@@ -17,6 +18,7 @@ import { ReviewEntity } from '../interface-adapter/gateways/entities/review.enti
     DramaService,
     StaticDramaRepository,
     StaticReviewRepository,
+    ValidateCreateDramaDataService,
   ],
 })
 export class ReviewModule {}
