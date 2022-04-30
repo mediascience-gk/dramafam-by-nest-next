@@ -3,5 +3,6 @@ export class RatingDataItem {
     public readonly name: string,
     public readonly avg: number,
     public readonly shortName?: string,
+    public readonly rank?: number,
   ) {}
 }
