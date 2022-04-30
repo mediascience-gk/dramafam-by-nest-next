@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { StaticDramaRepository } from '../interface-adapter/gateways/drama/drama.repository';
-import { CreateDramaDto } from './dto/create-drama.dto';
-import { Drama } from '../models/drama/drama';
+import { StaticDramaRepository } from '../../interface-adapter/gateways/drama/drama.repository';
+import { CreateDramaDto } from './dtos/create-drama.dto';
+import { Drama } from '../../models/drama/drama';
 
 @Injectable()
 export class DramaService {
@@ -11,8 +11,8 @@ export class DramaService {
     return await this.dramaRepository.create(createDramaDto);
   }
 
-  findAll(): Promise<Drama[]> {
-    return this.dramaRepository.findAll();
+  async findAll(): Promise<Drama[]> {
+    return await this.dramaRepository.findAll();
   }
 
   async findById(id: number): Promise<Drama> {

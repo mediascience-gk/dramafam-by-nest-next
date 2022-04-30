@@ -1,17 +1,27 @@
-import { ReviewRepository } from '../models/review/review.repository';
+import { ReviewRepository } from '../../models/review/review.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { StaticReviewRepository } from '../interface-adapter/gateways/review/review.repository';
-import { Review } from '../models/review/review';
-import { DramaService } from './drama.service';
-import { Drama } from '../models/drama/drama';
+import { StaticReviewRepository } from '../../interface-adapter/gateways/review/review.repository';
+import { Review } from '../../models/review/review';
+import { DramaService } from '../drama/drama.service';
+import { Drama } from '../../models/drama/drama';
+import { createRequest } from 'node-mocks-http';
 
 describe('DramaService', () => {
   let service: ReviewService;
   let stubDramaService: Partial<DramaService>;
   let stubReviewRepository: Partial<ReviewRepository>;
   let mockCreateReviewDto: CreateReviewDto;
+  const request = createRequest({
+    ip: '123.0.0.0',
+    headers: {
+      'User-Agent': 'IPhoneX',
+    },
+    cookies: {
+      token: '_12345',
+    },
+  });
 
   beforeEach(async () => {
     mockCreateReviewDto = {
@@ -74,7 +84,10 @@ describe('DramaService', () => {
   });
 
   it('create', async () => {
-    const drama = await service.create(mockCreateReviewDto);
+    const drama = await service.create(mockCreateReviewDto, request);
+    console.log(request.get('User-Agent'));
+    console.log(request.ip);
+    console.log(request.get('set-cookie'));
     expect(drama.id).toBe(1);
   });
 

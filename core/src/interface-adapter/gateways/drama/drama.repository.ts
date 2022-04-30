@@ -1,5 +1,5 @@
 import { DramaEntity } from '../entities/drama.entity';
-import { CreateDramaDto } from '../../../services/dto/create-drama.dto';
+import { CreateDramaDto } from '../../../services/drama/dtos/create-drama.dto';
 import { convertKanaToKanaStatus } from '../../../utils/kana-status/convert-kana-to-kana-status';
 import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -38,7 +38,7 @@ export class StaticDramaRepository implements DramaRepository {
 
   async findById(id: number): Promise<Drama> {
     const drama = await this.repository.findOne(id, {
-      relations: ['comments'],
+      relations: ['reviews'],
     });
     if (!drama) {
       throw new NotFoundException('該当ドラマは見つかりませんでした');
@@ -50,7 +50,7 @@ export class StaticDramaRepository implements DramaRepository {
     await this.repository.delete(id);
   }
 
-  private convertEntityToModel(dramaEntity: DramaEntity): Drama {
+  public convertEntityToModel(dramaEntity: DramaEntity): Drama {
     const { id, title, permalink, kana, startAt, endAt } = dramaEntity;
     return new Drama(
       id,

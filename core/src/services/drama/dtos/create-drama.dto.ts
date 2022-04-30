@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { IsKana } from '../../utils/decorators/validators/isKana';
+import { IsKana } from '../../../utils/decorators/validators/isKana';
 
 export class CreateDramaDto {
   @IsString()

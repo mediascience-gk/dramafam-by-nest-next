@@ -1,8 +1,8 @@
 import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
 import { Expose } from 'class-transformer';
 
-import { Age, allAge } from './enum/age.enum';
-import { Gender, allGender } from './enum/gender.enum';
+import { Age, allAge } from '../../drama/dtos/enums/age.enum';
+import { Gender, allGender } from '../../drama/dtos/enums/gender.enum';
 
 export class CreateReviewDto {
   @IsString()
@@ -14,28 +14,28 @@ export class CreateReviewDto {
   @IsEnum(allGender)
   gender: Gender | null;
 
-  @IsInt()
+  @Expose()
   ratingOfGeneral: number | null;
 
-  @IsInt()
+  @Expose()
   ratingOfStory: number | null;
 
-  @IsInt()
+  @Expose()
   ratingOfCast: number | null;
 
-  @IsInt()
+  @Expose()
   ratingOfProduction: number | null;
 
-  @IsInt()
+  @Expose()
   ratingOfMusic: number | null;
 
-  @IsInt()
+  @Expose()
   ratingOfImpression: number | null;
 
-  @IsInt()
+  @Expose()
   ratingOfComedy: number | null;
 
-  @IsInt()
+  @Expose()
   ratingOfThrill: number | null;
 
   @IsString()

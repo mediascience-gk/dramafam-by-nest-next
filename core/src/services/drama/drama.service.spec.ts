@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DramaService } from './drama.service';
-import { StaticDramaRepository } from '../interface-adapter/gateways/drama/drama.repository';
-import { DramaRepository } from '../models/drama/drama.repository';
-import { Drama } from '../models/drama/drama';
-import { CreateDramaDto } from './dto/create-drama.dto';
+import { StaticDramaRepository } from '../../interface-adapter/gateways/drama/drama.repository';
+import { DramaRepository } from '../../models/drama/drama.repository';
+import { Drama } from '../../models/drama/drama';
+import { CreateDramaDto } from './dtos/create-drama.dto';
 
 describe('DramaService', () => {
   let service: DramaService;

@@ -1,5 +1,5 @@
 import { Drama } from './drama';
-import { CreateDramaDto } from '../../services/dto/create-drama.dto';
+import { CreateDramaDto } from '../../services/drama/dtos/create-drama.dto';
 
 export interface DramaRepository {
   findById(id: number): Promise<Drama>;
