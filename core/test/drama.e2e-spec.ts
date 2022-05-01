@@ -6,6 +6,7 @@ import { AppModule } from '../src/app.module';
 import { DramaEntity } from '../src/interface-adapter/gateways/entities/drama.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DramaSeeder } from '../dist/interface-adapter/gateways/seeders/drama.seeder';
+import { ReviewEntity } from '../src/interface-adapter/gateways/entities/review.entity';
 
 describe(DramaModule, () => {
   let module: TestingModule;
@@ -14,7 +15,10 @@ describe(DramaModule, () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [AppModule, TypeOrmModule.forFeature([DramaEntity])],
+      imports: [
+        AppModule,
+        TypeOrmModule.forFeature([DramaEntity, ReviewEntity]),
+      ],
       providers: [DramaSeeder],
     }).compile();
 

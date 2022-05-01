@@ -14,22 +14,22 @@ export class DramaEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 80 })
   title: string;
 
-  @Column()
+  @Column({ length: 80 })
   permalink: string;
 
-  @Column()
+  @Column({ length: 80 })
   kana: string;
 
-  @Column()
+  @Column({ length: 80 })
   kanaStatus: string;
 
-  @Column()
+  @Column({ length: 10, width: 64 })
   startAt: string;
 
-  @Column({ nullable: true, type: 'varchar', width: 64 })
+  @Column({ nullable: true, type: 'varchar', length: 10, width: 64 })
   endAt: string | null;
 
   @OneToMany(() => ReviewEntity, (review) => review.drama, { cascade: true })

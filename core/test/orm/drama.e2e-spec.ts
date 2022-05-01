@@ -7,6 +7,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { AppModule } from '../../src/app.module';
 import { DramaSeeder } from '../../dist/interface-adapter/gateways/seeders/drama.seeder';
+import { ReviewEntity } from '../../src/interface-adapter/gateways/entities/review.entity';
 
 // ORM の CRUD のテストをしたい
 describe(DramaModule, () => {
@@ -25,7 +26,10 @@ describe(DramaModule, () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [AppModule, TypeOrmModule.forFeature([DramaEntity])],
+      imports: [
+        AppModule,
+        TypeOrmModule.forFeature([DramaEntity, ReviewEntity]),
+      ],
       providers: [StubDramaRepository, DramaSeeder],
     }).compile();
 
@@ -88,6 +92,60 @@ describe(DramaModule, () => {
 
     // then
     expect(createdDrama.title).toEqual('Test:CreateDramaTitle');
+  });
+
+  it('Create a model (titleが80文字ちょうど)', async () => {
+    // given => zero model
+
+    // when (custom dramaRepository)
+    const mockDramaEntity = {
+      title:
+        'Test:あああああああああああああああ' +
+        'ああああああああああああああああああああ' +
+        'ああああああああああああああああああああ' +
+        'ああああああああああああああああああああ',
+      permalink: 'drama-title',
+      kana: 'ドラマタイトル',
+      kanaStatus: convertKanaToKanaStatus('ドラマタイトル'),
+      startAt: '2022-04-01',
+      comments: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const createdDrama = await dramaRepository.create(mockDramaEntity);
+    await dramaRepository.save(createdDrama);
+
+    // then
+    expect(createdDrama.permalink).toEqual('drama-title');
+  });
+
+  it('Create a model (titleが80文字以上)', async () => {
+    // given => zero model
+
+    // when (custom dramaRepository)
+    const mockDramaEntity = {
+      title:
+        'Test:あああああああああああああああ' +
+        'ああああああああああああああああああああ' +
+        'ああああああああああああああああああああ' +
+        'ああああああああああああああああああああ' +
+        'あ',
+      permalink: 'drama-title',
+      kana: 'ドラマタイトル',
+      kanaStatus: convertKanaToKanaStatus('ドラマタイトル'),
+      startAt: '2022-04-01',
+      comments: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    try {
+      await dramaRepository.create(mockDramaEntity);
+    } catch (e) {
+      expect(e.length).toBeGreaterThan(0);
+    }
+    // expect(async () => {
+    //   await dramaRepository.create(mockDramaEntity);
+    // }).toThrow();
   });
 
   it('Read a model', async () => {
