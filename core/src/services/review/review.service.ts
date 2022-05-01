@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { StaticReviewRepository } from '../../interface-adapter/gateways/review/review.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { Review } from '../../models/review/review';
+import { Review } from '../../models/drama/review';
 import { Request } from 'express';
 
 @Injectable()

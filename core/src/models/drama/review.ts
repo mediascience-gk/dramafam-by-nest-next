@@ -1,4 +1,3 @@
-import { Drama } from '../drama/drama';
 import { Age } from '../../services/drama/dtos/enums/age.enum';
 import { Gender } from '../../services/drama/dtos/enums/gender.enum';
 
@@ -6,7 +5,6 @@ export class Review {
   constructor(
     public readonly id: number,
     public readonly body: string,
-    public readonly drama: Drama,
   ) {}
 
   public commentator: string;

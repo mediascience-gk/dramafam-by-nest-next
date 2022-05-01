@@ -7,12 +7,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DramaRepository } from '../../../models/drama/drama.repository';
 import { Drama } from '../../../models/drama/drama';
 import { ValidateCreateDramaDataService } from '../../../services/drama/validate-create-drama-data.service';
+import { ReviewEntity } from '../entities/review.entity';
 
 @Injectable()
 export class StaticDramaRepository implements DramaRepository {
   constructor(
     @InjectRepository(DramaEntity)
     private repository: Repository<DramaEntity>,
+    @InjectRepository(ReviewEntity)
+    private readonly reviewRepository: Repository<ReviewEntity>,
     private validateCreateDramaDataService: ValidateCreateDramaDataService,
   ) {}
 
@@ -27,6 +30,11 @@ export class StaticDramaRepository implements DramaRepository {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    const reviews = await this.reviewRepository.save({
+
+    })
+
     await this.repository.save(drama);
 
     return this.convertEntityToModel(drama);
@@ -54,13 +62,14 @@ export class StaticDramaRepository implements DramaRepository {
     await this.repository.delete(id);
   }
 
-  public convertEntityToModel(dramaEntity: DramaEntity): Drama {
+  private convertEntityToModel(dramaEntity: DramaEntity): Drama {
     const { id, title, permalink, kana, startAt, endAt } = dramaEntity;
     return new Drama(
       id,
       title,
       permalink,
       kana,
+      (count: number = 200) => this.reviewRepository.findAll({}),
       new Date(startAt),
       endAt ? new Date(endAt) : undefined,
     );

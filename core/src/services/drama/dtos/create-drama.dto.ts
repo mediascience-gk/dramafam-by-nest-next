@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { IsKana } from '../../../utils/decorators/validators/isKana';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { Kana } from '../Kana';
 
 export class CreateDramaDto {
   @IsString()
@@ -15,10 +16,8 @@ export class CreateDramaDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(80)
-  @IsKana('kana', {
-    message: 'ひらがな、またはカタカナでご入力ください',
-  })
-  kana: string;
+  @Transform((value) => new Kana(value.value))
+  kana: Kana;
 
   @IsNotEmpty()
   startAt: string;

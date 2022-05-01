@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { ReviewService } from '../services/review/review.service';
 import { CreateReviewDto } from '../services/review/dto/create-review.dto';
-import { Review } from '../models/review/review';
+import { Review } from '../models/drama/review';
 import { Request } from 'express';
 
 @Controller('review')

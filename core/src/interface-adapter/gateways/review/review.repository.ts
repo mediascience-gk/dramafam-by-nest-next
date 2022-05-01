@@ -3,9 +3,9 @@ import { ReviewEntity } from '../entities/review.entity';
 import { CreateReviewDto } from '../../../services/review/dto/create-review.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Review } from '../../../models/review/review';
+import { Review } from '../../../models/drama/review';
 import { Drama } from '../../../models/drama/drama';
-import { ReviewRepository } from '../../../models/review/review.repository';
+import { ReviewRepository } from '../../../models/drama/review.repository';
 import { StaticDramaRepository } from '../drama/drama.repository';
 import { DramaEntity } from '../entities/drama.entity';
 import { RatingAvg } from '../../../services/drama/types/rating-avg';
@@ -137,8 +137,7 @@ export class StaticReviewRepository implements ReviewRepository {
       drama: dramaEntity,
     } = reviewEntity;
 
-    const drama = this.staticDramaRepository.convertEntityToModel(dramaEntity);
-    const review = new Review(id, body, drama);
+    const review = new Review(id, body, dramaEntity.id as any as string);
     if (commentator) {
       review.commentator = commentator;
     }

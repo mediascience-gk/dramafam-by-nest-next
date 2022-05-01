@@ -1,9 +1,9 @@
-import { ReviewRepository } from '../../models/review/review.repository';
+import { ReviewRepository } from '../../models/drama/review.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { StaticReviewRepository } from '../../interface-adapter/gateways/review/review.repository';
-import { Review } from '../../models/review/review';
+import { Review } from '../../models/drama/review';
 import { DramaService } from '../drama/drama.service';
 import { Drama } from '../../models/drama/drama';
 import { createRequest } from 'node-mocks-http';
