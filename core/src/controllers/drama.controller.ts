@@ -26,6 +26,7 @@ export class DramaController {
   @Get(':id')
   async show(@Param('id') id: number) {
     const drama = await this.dramaService.findById(id);
+    console.log(drama.reviews());
     const reviews = await this.reviewService.findAllByDramaId(id);
     const avg = await this.avgOfDramaRating.get(id);
     return { drama, reviews, avg };

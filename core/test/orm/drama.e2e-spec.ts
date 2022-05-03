@@ -138,14 +138,8 @@ describe(DramaModule, () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    try {
-      await dramaRepository.create(mockDramaEntity);
-    } catch (e) {
-      expect(e.length).toBeGreaterThan(0);
-    }
-    // expect(async () => {
-    //   await dramaRepository.create(mockDramaEntity);
-    // }).toThrow();
+    const dramaEntity = await dramaRepository.create(mockDramaEntity);
+    await expect(dramaRepository.save(dramaEntity)).rejects.toThrow();
   });
 
   it('Read a model', async () => {

@@ -5,14 +5,16 @@ import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DramaRepository } from '../../../models/drama/drama.repository';
-import { Drama } from '../../../models/drama/drama';
+import { Drama, DramaPresentation } from '../../../models/drama/drama';
 import { ValidateCreateDramaDataService } from '../../../services/drama/validate-create-drama-data.service';
+import { StaticReviewRepository } from '../review/review.repository';
 
 @Injectable()
 export class StaticDramaRepository implements DramaRepository {
   constructor(
     @InjectRepository(DramaEntity)
     private repository: Repository<DramaEntity>,
+    private readonly reviewRepository: StaticReviewRepository,
     private validateCreateDramaDataService: ValidateCreateDramaDataService,
   ) {}
 
@@ -54,15 +56,23 @@ export class StaticDramaRepository implements DramaRepository {
     await this.repository.delete(id);
   }
 
-  public convertEntityToModel(dramaEntity: DramaEntity): Drama {
+  private convertEntityToModel(dramaEntity: DramaEntity): Drama {
     const { id, title, permalink, kana, startAt, endAt } = dramaEntity;
     return new Drama(
       id,
       title,
       permalink,
       kana,
+      async (dramaId) => await this.reviewRepository.findAllByDramaId(dramaId),
       new Date(startAt),
       endAt ? new Date(endAt) : undefined,
     );
+  }
+
+  public static convertEntityToPresentation(
+    dramaEntity: DramaEntity,
+  ): DramaPresentation {
+    const { id, title, permalink, kana } = dramaEntity;
+    return { id, title, permalink, kana };
   }
 }

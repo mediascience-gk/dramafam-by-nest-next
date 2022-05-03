@@ -4,11 +4,13 @@ import { CreateReviewDto } from '../../../services/review/dto/create-review.dto'
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from '../../../models/review/review';
-import { Drama } from '../../../models/drama/drama';
+// import { Drama } from '../../../models/drama/drama';
 import { ReviewRepository } from '../../../models/review/review.repository';
-import { StaticDramaRepository } from '../drama/drama.repository';
+// import { StaticDramaRepository } from '../drama/drama.repository';
 import { DramaEntity } from '../entities/drama.entity';
 import { RatingAvg } from '../../../services/drama/types/rating-avg';
+import { DramaPresentation } from '../../../models/drama/drama';
+import { StaticDramaRepository } from '../drama/drama.repository';
 
 @Injectable()
 export class StaticReviewRepository implements ReviewRepository {
@@ -16,8 +18,7 @@ export class StaticReviewRepository implements ReviewRepository {
     @InjectRepository(ReviewEntity)
     private readonly reviewRepository: Repository<ReviewEntity>,
     @InjectRepository(DramaEntity)
-    private readonly dramaRepository: Repository<DramaEntity>,
-    private readonly staticDramaRepository: StaticDramaRepository,
+    private readonly dramaRepository: Repository<DramaEntity>, // private readonly staticDramaRepository: StaticDramaRepository,
   ) {}
 
   async findById(id: number): Promise<Review> {
@@ -25,16 +26,7 @@ export class StaticReviewRepository implements ReviewRepository {
     if (!reviewEntity) {
       throw new NotFoundException('該当コメントは見つかりませんでした');
     }
-    const { body, drama: dramaEntity } = reviewEntity;
-    const drama = new Drama(
-      dramaEntity.id,
-      dramaEntity.title,
-      dramaEntity.permalink,
-      dramaEntity.kana,
-      new Date(dramaEntity.startAt),
-      dramaEntity.endAt ? new Date(dramaEntity.endAt) : undefined,
-    );
-    return new Review(id, body, drama);
+    return this.convertEntityToModel(reviewEntity);
   }
 
   async findAllByDramaId(dramaId: number) {
@@ -137,8 +129,9 @@ export class StaticReviewRepository implements ReviewRepository {
       drama: dramaEntity,
     } = reviewEntity;
 
-    const drama = this.staticDramaRepository.convertEntityToModel(dramaEntity);
-    const review = new Review(id, body, drama);
+    const dramaPresentation =
+      StaticDramaRepository.convertEntityToPresentation(dramaEntity);
+    const review = new Review(id, body, dramaPresentation);
     if (commentator) {
       review.commentator = commentator;
     }
