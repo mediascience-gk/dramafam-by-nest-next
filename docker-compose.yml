@@ -2,22 +2,19 @@ version: '3.2'
 
 services:
 
-  mysql: # Mysql container
-    container_name: development-mysql
-    image: mysql:5.7
-    restart: always
+  mysql: # mariadb container
+    container_name: development-mariadb
+    image: mariadb:10.5
     volumes:
-      - ./conf:/etc/mysql/conf.d
-      - ./logs:/var/log/mysql
-      - ./init:/docker-entrypoint-initdb.d
-    environment:
-      MYSQL_ROOT_PASSWORD: rootPassword
-      MYSQL_DATABASE: sample
-      MYSQL_USER:     test
-      MYSQL_PASSWORD: passwd
-      TZ: Asia/Tokyo
+      - ./db_data:/var/lib/mysql
     ports:
       - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
 
   pma: # phpMyAdmin container
     container_name: development-pma
@@ -25,8 +22,27 @@ services:
     restart: always
     environment:
       PMA_USER: root
-      PMA_PASSWORD: rootPassword
+      PMA_PASSWORD: root_password
     ports:
       - 8080:80
     links:
       - mysql:db
+
+# 村井さんの環境
+# version: '3.2'
+#
+# services:
+#   db:
+#     image: mariadb
+#     restart: always
+#     ports:
+#       - "3306:3306"
+#     environment:
+#       MARIADB_ROOT_PASSWORD: example
+#       MARIADB_DATABASE: app
+#
+#   adminer:
+#     image: adminer
+#     restart: always
+#     ports:
+#       - "8080:8080"
