@@ -6,6 +6,17 @@ https://dramafam.jp
 
 ## 検証環境のセットアップ方法
 1. dockerによるDB立ち上げ
-```
-docker-compose up -d
-```
+    ```
+    docker-compose up -d
+    ```
+2. バックエンドの立ち上げ
+   - coreディレクトリ配下に移動し、下記コマンドを実行
+   - 必ずバックエンドから立ち上げる
+   ```
+   yarn start:dev
+   ```
+3. フロントエンドの立ち上げ
+   - webディレクトリ配下に移動し、下記コマンドを実行
+   ```
+   yarn dev
+   ```
