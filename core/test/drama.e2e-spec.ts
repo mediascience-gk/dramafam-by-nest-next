@@ -43,7 +43,7 @@ describe(DramaModule, () => {
       .get('/drama')
       .expect(200)
       .then((res) => {
-        console.log(res.body);
+        expect(res.body.length).toBeGreaterThan(0);
       });
   });
 

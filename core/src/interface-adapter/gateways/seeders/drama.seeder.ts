@@ -76,8 +76,6 @@ export class DramaSeeder {
       .where('title like :title', { title: 'Test:%' })
       .getOne();
 
-    console.log(dramaEntity);
-
     if (!dramaEntity) {
       throw Error;
     }
