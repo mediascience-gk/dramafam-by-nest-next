@@ -85,9 +85,6 @@ describe('DramaService', () => {
 
   it('create', async () => {
     const drama = await service.create(mockCreateReviewDto, request);
-    // console.log(request.get('User-Agent'));
-    // console.log(request.ip);
-    // console.log(request.get('set-cookie'));
     expect(drama.id).toBe(1);
   });
 
