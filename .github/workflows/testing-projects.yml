@@ -1,0 +1,21 @@
+name: Testing Projects
+on: [ push ]
+
+jobs:
+  Testing-Project:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./core
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'yarn'
+          cache-dependency-path: core/yarn.lock
+      - run: yarn install --frozen-lockfile
+      - name: Test core
+        run: yarn test
