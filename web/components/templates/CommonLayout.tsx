@@ -1,18 +1,25 @@
-import { FC, memo, ReactNode } from "react";
-import { Box, Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { FC, memo, ReactNode } from 'react';
+import Head from 'next/head';
 
 type Props = {
+  title: string;
   children: ReactNode;
 };
 
-export const CommonLayout: FC<Props> = memo((props) => {
-  const { children } = props;
+export const CommonLayout: FC<Props> = ({
+  children,
+  title = 'ドラマふぁむ',
+}) => {
   return (
-    <SimpleGrid minChildWidth="120px" spacing="10px">
-      <Box bg="papayawhip" maxWidth="100px" height="80px"></Box>
-      <Box bg="tomato" height="80px">
+    <div className="flex min-h-screen">
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <header></header>
+      <main className="flex flex-1 flex-col justify-center p-4">
         {children}
-      </Box>
-    </SimpleGrid>
+      </main>
+      <footer></footer>
+    </div>
   );
-});
+};
