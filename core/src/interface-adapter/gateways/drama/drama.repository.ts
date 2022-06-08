@@ -35,7 +35,9 @@ export class StaticDramaRepository implements DramaRepository {
   }
 
   async findAll(): Promise<Drama[]> {
-    const dramaEntities = await this.repository.find();
+    const dramaEntities = await this.repository.find({
+      order: { createdAt: 'DESC' },
+    });
     const dramas = dramaEntities.map<Drama>((drama: DramaEntity) => {
       return this.convertEntityToModel(drama);
     });

@@ -1,21 +1,19 @@
-import type { GetServerSideProps, NextPage } from 'next';
+import type { GetServerSideProps } from 'next';
 import { CommonLayout } from '../components/templates/CommonLayout';
 import axios from 'axios';
 import { Drama } from '../types/drama';
-import Link from 'next/link';
 import * as Yup from 'yup';
 import { useForm, yupResolver } from '@mantine/form';
 import {
   Anchor,
   Button,
-  Card,
   Center,
   List,
   TextInput,
   ThemeIcon,
 } from '@mantine/core';
-import { useQueryClient } from 'react-query';
 import { CircleCheck } from 'tabler-icons-react';
+import { useState } from 'react';
 
 const url = `${process.env.NEXT_PUBLIC_CORE_URL}/drama`;
 
@@ -38,7 +36,9 @@ const schema = Yup.object().shape({
 });
 
 const Home = (props: { dramas: Drama[] }) => {
-  const { dramas } = props;
+  let { dramas } = props;
+
+  const [newDramas, setNewDramas] = useState<Drama[]>([]);
 
   const form = useForm<CreateDrama>({
     schema: yupResolver(schema),
@@ -50,15 +50,17 @@ const Home = (props: { dramas: Drama[] }) => {
     },
   });
 
-  const handleSubmit = async () => {
-    const drama = await axios
+  const handleSubmit = () => {
+    axios
       .post(url, {
         title: form.values.title,
         kana: form.values.kana,
         permalink: form.values.permalink,
         startAt: form.values.startAt,
       })
-      .then((res) => console.log(res.data));
+      .then((res) => {
+        setNewDramas([res.data, ...newDramas]);
+      });
     form.reset();
   };
 
@@ -107,6 +109,14 @@ const Home = (props: { dramas: Drama[] }) => {
           </ThemeIcon>
         }
       >
+        {newDramas &&
+          newDramas.map((drama) => (
+            <List.Item key={drama.id}>
+              <Anchor href={`/${drama.id}`} color="cyan">
+                {drama.title}
+              </Anchor>
+            </List.Item>
+          ))}
         {dramas &&
           dramas.map((drama) => (
             <List.Item key={drama.id}>

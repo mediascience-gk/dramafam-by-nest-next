@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsOptional, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { Expose } from 'class-transformer';
 
 import { Age, allAge } from '../../drama/dtos/enums/age.enum';
@@ -8,9 +8,11 @@ export class CreateReviewDto {
   @IsString()
   commentator: string | null;
 
+  @IsOptional()
   @IsEnum(allAge)
   age: Age | null;
 
+  @IsOptional()
   @IsEnum(allGender)
   gender: Gender | null;
 

@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          colorScheme: 'dark',
+          colorScheme: 'light',
           fontFamily: 'Verdana, sans-serif',
         }}
       >

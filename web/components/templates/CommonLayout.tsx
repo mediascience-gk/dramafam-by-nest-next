@@ -1,4 +1,4 @@
-import { FC, memo, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import Head from 'next/head';
 
 type Props = {
@@ -16,9 +16,7 @@ export const CommonLayout: FC<Props> = ({
         <title>{title}</title>
       </Head>
       <header></header>
-      <main className="flex flex-1 flex-col justify-center p-4">
-        {children}
-      </main>
+      <main className="flex flex-1 flex-col p-4">{children}</main>
       <footer></footer>
     </div>
   );
