@@ -4,14 +4,14 @@ import {
   AppShell,
   Navbar,
   Header,
-  Footer,
-  Aside,
   Text,
   MediaQuery,
   Burger,
   useMantineTheme,
   Anchor,
+  SimpleGrid,
 } from '@mantine/core';
+import { SearchForm } from '../../molecules/SearchForm';
 
 type Props = {
   children: ReactNode;
@@ -64,9 +64,21 @@ export const CommonHeader: FC<Props> = (props) => {
               />
             </MediaQuery>
 
-            <Anchor className="text-gray-600" href="/">
+            <Anchor
+              className="text-gray-600"
+              href="/"
+              style={{ width: '200px' }}
+            >
               ドラマふぁむ
             </Anchor>
+
+            <div className="grid justify-items-end" style={{ width: '100%' }}>
+              <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                <SimpleGrid>
+                  <SearchForm />
+                </SimpleGrid>
+              </MediaQuery>
+            </div>
           </div>
         </Header>
       }
@@ -79,7 +91,9 @@ export const CommonHeader: FC<Props> = (props) => {
         padding="xl"
         size="lg"
       >
-        Application drawer
+        <div className="grid justify-items-center">
+          <SearchForm />
+        </div>
       </Drawer>
     </AppShell>
   );
