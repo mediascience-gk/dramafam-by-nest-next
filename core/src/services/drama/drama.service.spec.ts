@@ -1,14 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DramaService } from './drama.service';
-import { StaticDramaRepository } from '../../interface-adapter/gateways/drama/drama.repository';
 import { DramaRepository } from '../../models/drama/drama.repository';
 import { Drama } from '../../models/drama/drama';
-import { CreateDramaDto } from './dtos/create-drama.dto';
+import { CreateDramaDto } from '../../models/drama/dtos/create-drama.dto';
 import { ValidateCreateDramaDataService } from './validate-create-drama-data.service';
+import { ReviewRepository } from '../../models/review/review.repository';
+import { Rating } from '../../models/drama/rating';
+import { Review } from '../../models/review/review';
 
 describe('DramaService', () => {
   let service: DramaService;
   let stubDramaRepository: Partial<DramaRepository>;
+  let stubReviewRepository: Partial<ReviewRepository>;
   let stubValidateCreateDramaDataService: Partial<ValidateCreateDramaDataService>;
   let mockCreateDramaDto: CreateDramaDto;
 
@@ -57,13 +60,41 @@ describe('DramaService', () => {
         return Promise.resolve();
       },
     };
+    stubReviewRepository = {
+      findAllByDramaId: (dramaId) => {
+        return Promise.resolve([
+          {
+            id: 1,
+            body: 'review-body',
+            drama: {
+              id: 2,
+              title: 'DramaTitle',
+              permalink: 'drama-title',
+            },
+          } as Review,
+        ]);
+      },
+      getRating: (dramaId: number) => {
+        return Promise.resolve({
+          general: { score: 5 },
+          cast: { score: 5 },
+          story: { score: 5 },
+          production: { score: 5 },
+          impression: { score: 5 },
+          music: { score: 5 },
+          comedy: { score: 5 },
+          thrill: { score: 5 },
+        } as Rating);
+      },
+    };
     stubValidateCreateDramaDataService = {
       validateDto: (createDramaDto: CreateDramaDto) => true,
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DramaService,
-        { provide: StaticDramaRepository, useValue: stubDramaRepository },
+        { provide: DramaRepository, useValue: stubDramaRepository },
+        { provide: ReviewRepository, useValue: stubReviewRepository },
         {
           provide: ValidateCreateDramaDataService,
           useValue: stubValidateCreateDramaDataService,

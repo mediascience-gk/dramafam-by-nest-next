@@ -6,6 +6,8 @@ import { GetServerSideProps } from 'next';
 import axios from 'axios';
 
 import { ReviewForm } from '../../../components/organisms/ReviewForm';
+import { useState } from 'react';
+import { Slider } from '@mantine/core';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   if (!params) {
@@ -13,8 +15,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
   const { drama_permalink: permalink } = params;
   const coreUrl = process.env.NEXT_PUBLIC_CORE_URL;
-  const { data: dramaData } = await axios.get(`${coreUrl}/drama/${permalink}`);
-  return { props: { dramaData } };
+  const { data: drama } = await axios.get(`${coreUrl}/drama/${permalink}`);
+  return { props: { drama } };
 };
 
 const schema = Yup.object().shape({
@@ -22,7 +24,7 @@ const schema = Yup.object().shape({
 });
 
 const ReviewCreate = (props: any) => {
-  const { id, title, permalink } = props.dramaData.drama;
+  const { id, title } = props.drama;
   const router = useRouter();
 
   const form = useForm({

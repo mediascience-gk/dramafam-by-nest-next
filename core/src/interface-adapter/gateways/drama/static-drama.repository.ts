@@ -1,5 +1,5 @@
 import { DramaEntity } from '../entities/drama.entity';
-import { CreateDramaDto } from '../../../services/drama/dtos/create-drama.dto';
+import { CreateDramaDto } from '../../../models/drama/dtos/create-drama.dto';
 import { convertKanaToKanaStatus } from '../../../utils/kana-status/convert-kana-to-kana-status';
 import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -7,14 +7,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DramaRepository } from '../../../models/drama/drama.repository';
 import { Drama, DramaPresentation } from '../../../models/drama/drama';
 import { ValidateCreateDramaDataService } from '../../../services/drama/validate-create-drama-data.service';
-import { StaticReviewRepository } from '../review/review.repository';
+import { ReviewRepository } from '../../../models/review/review.repository';
 
 @Injectable()
 export class StaticDramaRepository implements DramaRepository {
   constructor(
     @InjectRepository(DramaEntity)
     private repository: Repository<DramaEntity>,
-    private readonly reviewRepository: StaticReviewRepository,
+    private readonly reviewRepository: ReviewRepository,
     private validateCreateDramaDataService: ValidateCreateDramaDataService,
   ) {}
 
@@ -65,7 +65,6 @@ export class StaticDramaRepository implements DramaRepository {
       title,
       permalink,
       kana,
-      async (dramaId) => await this.reviewRepository.findAllByDramaId(dramaId),
       new Date(startAt),
       endAt ? new Date(endAt) : undefined,
     );
@@ -74,7 +73,7 @@ export class StaticDramaRepository implements DramaRepository {
   public static convertEntityToPresentation(
     dramaEntity: DramaEntity,
   ): DramaPresentation {
-    const { id, title, permalink, kana } = dramaEntity;
-    return { id, title, permalink, kana };
+    const { id, title, permalink } = dramaEntity;
+    return { id, title, permalink };
   }
 }

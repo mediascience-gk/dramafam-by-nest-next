@@ -1,12 +1,12 @@
 import { Drama } from './drama';
-import { CreateDramaDto } from '../../services/drama/dtos/create-drama.dto';
+import { CreateDramaDto } from './dtos/create-drama.dto';
 
-export interface DramaRepository {
-  findById(id: number): Promise<Drama>;
+export abstract class DramaRepository {
+  abstract findById: (id: number) => Promise<Drama>;
 
-  create(creteDramaDto: CreateDramaDto): Promise<Drama>;
+  abstract create: (creteDramaDto: CreateDramaDto) => Promise<Drama>;
 
-  findAll(): Promise<Drama[]>;
+  abstract findAll: () => Promise<Drama[]>;
 
-  delete(id: number): Promise<void>;
+  abstract delete: (id: number) => Promise<void>;
 }

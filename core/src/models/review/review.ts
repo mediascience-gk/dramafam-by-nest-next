@@ -1,6 +1,7 @@
 import { DramaPresentation } from '../drama/drama';
-import { Age } from '../../services/drama/dtos/enums/age.enum';
-import { Gender } from '../../services/drama/dtos/enums/gender.enum';
+import { Age } from '../drama/dtos/enums/age.enum';
+import { Gender } from '../drama/dtos/enums/gender.enum';
+import { Rating } from '../drama/rating';
 
 export class Review {
   constructor(
@@ -12,12 +13,5 @@ export class Review {
   public commentator: string;
   public age: Age;
   public gender: Gender;
-  public ratingOfGeneral: number;
-  public ratingOfCast: number;
-  public ratingOfStory: number;
-  public ratingOfProduction: number;
-  public ratingOfMusic: number;
-  public ratingOfComedy: number;
-  public ratingOfImpression: number;
-  public ratingOfThrill: number;
+  public rating: Rating;
 }

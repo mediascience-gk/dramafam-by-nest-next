@@ -1,7 +1,7 @@
 import { FC, memo } from 'react';
 import { Text } from '@mantine/core';
 
-import { RatingSlider } from '../atoms/slider/RatingSlider';
+import { RatingSlider } from '../../atoms/slider/RatingSlider';
 
 type Props = {
   label: string;

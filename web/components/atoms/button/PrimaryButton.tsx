@@ -1,5 +1,5 @@
 import { FC, memo, ReactNode } from 'react';
-import { Button } from '@mantine/core';
+import { BaseButton } from './BaseButton';
 
 type Props = {
   children: ReactNode;
@@ -18,7 +18,7 @@ export const PrimaryButton: FC<Props> = memo((props) => {
     onClick,
   } = props;
   return (
-    <Button
+    <BaseButton
       color="pink"
       type={type}
       loading={loading}
@@ -26,6 +26,6 @@ export const PrimaryButton: FC<Props> = memo((props) => {
       onClick={onClick}
     >
       {children}
-    </Button>
+    </BaseButton>
   );
 });

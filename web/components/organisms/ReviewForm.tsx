@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Button, Center, Textarea, TextInput } from '@mantine/core';
-import { RatingItem } from '../molecules/RatingItem';
+import { Center, Textarea, TextInput } from '@mantine/core';
+import { RatingItem } from '../molecules/drama/RatingItem';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
 import { PrimaryButton } from '../atoms/button/PrimaryButton';
 
@@ -52,7 +52,7 @@ export const ReviewForm: FC<Props> = (props) => {
         inputProps={{ ...form.getInputProps('ratingOfCast') }}
       />
       <RatingItem
-        label="演出"
+        label="映像"
         inputProps={{ ...form.getInputProps('ratingOfProduction') }}
       />
       <RatingItem

@@ -13,9 +13,11 @@ export const SearchForm: FC = () => {
             borderTopLeftRadius: '0',
             borderBottomLeftRadius: '0',
             marginLeft: '-4px',
+            paddingLeft: '8px',
+            paddingRight: '8px',
           }}
         >
-          <Search size="22px" />
+          <Search size="20px" />
         </Button>
       </div>
     </>

@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { StaticDramaRepository } from '../../interface-adapter/gateways/drama/drama.repository';
-import { CreateDramaDto } from './dtos/create-drama.dto';
+import { CreateDramaDto } from '../../models/drama/dtos/create-drama.dto';
 import { Drama } from '../../models/drama/drama';
 import { ValidateCreateDramaDataService } from './validate-create-drama-data.service';
+import { DramaRepository } from '../../models/drama/drama.repository';
+import { ReviewRepository } from '../../models/review/review.repository';
 
 @Injectable()
 export class DramaService {
   constructor(
-    private dramaRepository: StaticDramaRepository,
+    private dramaRepository: DramaRepository,
+    private reviewRepository: ReviewRepository,
     private validateCreateDramaDataService: ValidateCreateDramaDataService,
   ) {}
 
@@ -21,7 +23,10 @@ export class DramaService {
   }
 
   async findById(id: number): Promise<Drama> {
-    return await this.dramaRepository.findById(id);
+    const drama = await this.dramaRepository.findById(id);
+    drama.rating = await this.reviewRepository.getRating(id);
+    drama.reviews = await this.reviewRepository.findAllByDramaId(id);
+    return drama;
   }
 
   async remove(id: number): Promise<void> {

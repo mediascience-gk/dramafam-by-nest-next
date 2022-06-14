@@ -1,6 +1,6 @@
 import { ValidateCreateDramaDataService } from './validate-create-drama-data.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateDramaDto } from './dtos/create-drama.dto';
+import { CreateDramaDto } from '../../models/drama/dtos/create-drama.dto';
 
 describe('ValidateCreateDramaService', () => {
   let service: ValidateCreateDramaDataService;

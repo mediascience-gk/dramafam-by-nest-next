@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { StaticReviewRepository } from '../../interface-adapter/gateways/review/review.repository';
-import { CreateReviewDto } from './dto/create-review.dto';
+import { CreateReviewDto } from '../../models/review/dtos/create-review.dto';
 import { Review } from '../../models/review/review';
 import { Request } from 'express';
+import { ReviewRepository } from '../../models/review/review.repository';
 
 @Injectable()
 export class ReviewService {
-  constructor(private commentRepository: StaticReviewRepository) {}
+  constructor(private commentRepository: ReviewRepository) {}
 
   async create(
     createCommentDto: CreateReviewDto,

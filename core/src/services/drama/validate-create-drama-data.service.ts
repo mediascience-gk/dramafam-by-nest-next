@@ -1,4 +1,4 @@
-import { CreateDramaDto } from './dtos/create-drama.dto';
+import { CreateDramaDto } from '../../models/drama/dtos/create-drama.dto';
 import { assert, object, optional, size, string } from 'superstruct';
 import { Injectable } from '@nestjs/common';
 

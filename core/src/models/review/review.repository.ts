@@ -1,12 +1,15 @@
 import { Review } from './review';
-import { CreateReviewDto } from '../../services/review/dto/create-review.dto';
+import { CreateReviewDto } from './dtos/create-review.dto';
+import { Rating } from '../drama/rating';
 
-export interface ReviewRepository {
-  findById(id: number): Promise<Review>;
+export abstract class ReviewRepository {
+  abstract findById: (id: number) => Promise<Review>;
 
-  create(createCommentDto: CreateReviewDto): Promise<Review>;
+  abstract create: (createCommentDto: CreateReviewDto) => Promise<Review>;
 
-  findAllByDramaId(dramaId: number): Promise<Review[]>;
+  abstract findAllByDramaId: (dramaId: number) => Promise<Review[]>;
 
-  delete(id: number): Promise<void>;
+  abstract getRating: (dramaId: number) => Promise<Rating>;
+
+  abstract delete: (id: number) => Promise<void>;
 }

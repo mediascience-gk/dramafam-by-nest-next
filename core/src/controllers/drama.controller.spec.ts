@@ -5,17 +5,15 @@ import { INestApplication, ValidationError } from '@nestjs/common';
 
 import { DramaController } from './drama.controller';
 import { DramaService } from '../services/drama/drama.service';
-import { CreateDramaDto } from '../services/drama/dtos/create-drama.dto';
+import { CreateDramaDto } from '../models/drama/dtos/create-drama.dto';
 import { Drama } from '../models/drama/drama';
 import { ReviewService } from '../services/review/review.service';
-import { AvgOfDramaRatingService } from '../services/drama/avg-of-drama-rating.service';
 
 describe('DramaController', () => {
   let app: INestApplication;
   let controller: DramaController;
   let stubDramaService: Partial<DramaService>;
   let stubCommentService: Partial<ReviewService>;
-  let stubAvgOfDramaRatingService: Partial<AvgOfDramaRatingService>;
   let mockCreateDramaDto: CreateDramaDto;
 
   const validateDto = (
@@ -44,17 +42,12 @@ describe('DramaController', () => {
     };
 
     stubCommentService = {};
-    stubAvgOfDramaRatingService = {};
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [DramaController],
       providers: [
         { provide: DramaService, useValue: stubDramaService },
         { provide: ReviewService, useValue: stubCommentService },
-        {
-          provide: AvgOfDramaRatingService,
-          useValue: stubAvgOfDramaRatingService,
-        },
       ],
     }).compile();
 

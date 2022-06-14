@@ -1,16 +1,13 @@
-import { createQueryBuilder, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ReviewEntity } from '../entities/review.entity';
-import { CreateReviewDto } from '../../../services/review/dto/create-review.dto';
+import { CreateReviewDto } from '../../../models/review/dtos/create-review.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from '../../../models/review/review';
-// import { Drama } from '../../../models/drama/drama';
 import { ReviewRepository } from '../../../models/review/review.repository';
-// import { StaticDramaRepository } from '../drama/drama.repository';
 import { DramaEntity } from '../entities/drama.entity';
-import { RatingAvg } from '../../../services/drama/types/rating-avg';
-import { DramaPresentation } from '../../../models/drama/drama';
-import { StaticDramaRepository } from '../drama/drama.repository';
+import { StaticDramaRepository } from '../drama/static-drama.repository';
+import { Rating } from '../../../models/drama/rating';
 
 @Injectable()
 export class StaticReviewRepository implements ReviewRepository {
@@ -94,7 +91,7 @@ export class StaticReviewRepository implements ReviewRepository {
     await this.reviewRepository.delete({ id });
   }
 
-  async getRatingAvg(dramaId: number): Promise<RatingAvg> {
+  async getRating(dramaId: number): Promise<Rating> {
     const ratingAvg = await this.reviewRepository
       .createQueryBuilder()
       .select([
@@ -105,10 +102,20 @@ export class StaticReviewRepository implements ReviewRepository {
         'AVG(ratingOfImpression) as impression',
         'AVG(ratingOfMusic) as music',
         'AVG(ratingOfComedy) as comedy',
+        'AVG(ratingOfThrill) as thrill',
       ])
       .where('dramaId = :dramaId', { dramaId })
       .getRawOne();
-    return ratingAvg;
+    const rating = new Rating();
+    rating.general = { score: ratingAvg.general || null };
+    rating.cast = { score: ratingAvg.cast || null };
+    rating.story = { score: ratingAvg.story || null };
+    rating.production = { score: ratingAvg.production || null };
+    rating.impression = { score: ratingAvg.impression || null };
+    rating.music = { score: ratingAvg.music || null };
+    rating.comedy = { score: ratingAvg.comedy || null };
+    rating.thrill = { score: ratingAvg.thrill || null };
+    return rating;
   }
 
   public convertEntityToModel(reviewEntity: ReviewEntity): Review {
@@ -141,31 +148,16 @@ export class StaticReviewRepository implements ReviewRepository {
     if (gender) {
       review.gender = gender;
     }
-    if (ratingOfGeneral) {
-      review.ratingOfGeneral = ratingOfGeneral;
-    }
-    if (ratingOfCast) {
-      review.ratingOfCast = ratingOfCast;
-    }
-    if (ratingOfStory) {
-      review.ratingOfStory = ratingOfStory;
-    }
-    if (ratingOfProduction) {
-      review.ratingOfProduction = ratingOfProduction;
-    }
-    if (ratingOfImpression) {
-      review.ratingOfImpression = ratingOfImpression;
-    }
-    if (ratingOfMusic) {
-      review.ratingOfMusic = ratingOfMusic;
-    }
-    if (ratingOfComedy) {
-      review.ratingOfComedy = ratingOfComedy;
-    }
-    if (ratingOfThrill) {
-      review.ratingOfThrill = ratingOfThrill;
-    }
-
+    review.rating = {
+      general: { score: ratingOfGeneral || null },
+      cast: { score: ratingOfCast || null },
+      story: { score: ratingOfStory || null },
+      production: { score: ratingOfProduction || null },
+      impression: { score: ratingOfImpression || null },
+      music: { score: ratingOfMusic || null },
+      comedy: { score: ratingOfComedy || null },
+      thrill: { score: ratingOfThrill || null },
+    };
     return review;
   }
 }

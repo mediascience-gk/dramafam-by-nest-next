@@ -1,8 +1,7 @@
 import { ReviewRepository } from '../../models/review/review.repository';
-import { CreateReviewDto } from './dto/create-review.dto';
+import { CreateReviewDto } from '../../models/review/dtos/create-review.dto';
 import { ReviewService } from './review.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { StaticReviewRepository } from '../../interface-adapter/gateways/review/review.repository';
 import { Review } from '../../models/review/review';
 import { DramaService } from '../drama/drama.service';
 import { Drama } from '../../models/drama/drama';
@@ -60,7 +59,6 @@ describe('DramaService', () => {
             id: 1,
             title: 'DramaTitle',
             permalink: 'drama-title',
-            kana: 'ドラマタイトル',
           },
         } as Review);
       },
@@ -72,7 +70,7 @@ describe('DramaService', () => {
       providers: [
         ReviewService,
         { provide: DramaService, useValue: stubDramaService },
-        { provide: StaticReviewRepository, useValue: stubReviewRepository },
+        { provide: ReviewRepository, useValue: stubReviewRepository },
       ],
     }).compile();
 
