@@ -1,29 +1,25 @@
-import { Repository } from 'typeorm';
-import { ReviewEntity } from '../entities/review.entity';
-import { CreateReviewDto } from '../../../models/review/dtos/create-review.dto';
+import { ReviewOrmEntity } from '../../entities/review-orm.entity';
+import { CreateReviewDto } from '../../../../models/review/dtos/create-review.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Review } from '../../../models/review/review';
-import { ReviewRepository } from '../../../models/review/review.repository';
-import { DramaEntity } from '../entities/drama.entity';
+import { Review } from '../../../../models/review/review';
+import { ReviewRepository } from '../../../../models/review/review.repository';
 import { StaticDramaRepository } from '../drama/static-drama.repository';
-import { Rating } from '../../../models/drama/rating';
+import { Rating } from '../../../../models/drama/rating';
+import { DramaOrmRepository, ReviewOrmRepository } from '../../repositories';
 
 @Injectable()
 export class StaticReviewRepository implements ReviewRepository {
   constructor(
-    @InjectRepository(ReviewEntity)
-    private readonly reviewRepository: Repository<ReviewEntity>,
-    @InjectRepository(DramaEntity)
-    private readonly dramaRepository: Repository<DramaEntity>, // private readonly staticDramaRepository: StaticDramaRepository,
+    private readonly reviewRepository: ReviewOrmRepository,
+    private readonly dramaRepository: DramaOrmRepository, // private readonly staticDramaRepository: StaticDramaRepository,
   ) {}
 
   async findById(id: number): Promise<Review> {
-    const reviewEntity = await this.reviewRepository.findOne({ id });
-    if (!reviewEntity) {
+    const reviewOrmEntity = await this.reviewRepository.findOne({ id });
+    if (!reviewOrmEntity) {
       throw new NotFoundException('該当コメントは見つかりませんでした');
     }
-    return this.convertEntityToModel(reviewEntity);
+    return this.convertOrmEntityToModel(reviewOrmEntity);
   }
 
   async findAllByDramaId(dramaId: number) {
@@ -34,8 +30,8 @@ export class StaticReviewRepository implements ReviewRepository {
       },
       order: { createdAt: 'DESC' },
     });
-    const reviews = reviewEntities.map((reviewEntity) => {
-      return this.convertEntityToModel(reviewEntity);
+    const reviews = reviewEntities.map((reviewOrmEntity) => {
+      return this.convertOrmEntityToModel(reviewOrmEntity);
     });
     return reviews;
   }
@@ -65,26 +61,28 @@ export class StaticReviewRepository implements ReviewRepository {
       throw new NotFoundException('該当のドラマが見つかりませんでした');
     }
 
-    const reviewEntity: ReviewEntity = await this.reviewRepository.create({
-      commentator,
-      age,
-      gender,
-      ratingOfGeneral,
-      ratingOfCast,
-      ratingOfStory,
-      ratingOfProduction,
-      ratingOfMusic,
-      ratingOfComedy,
-      ratingOfImpression,
-      ratingOfThrill,
-      body,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      drama: dramaEntity,
-    });
-    await this.reviewRepository.save(reviewEntity);
+    const reviewOrmEntity: ReviewOrmEntity = await this.reviewRepository.create(
+      {
+        commentator,
+        age,
+        gender,
+        ratingOfGeneral,
+        ratingOfCast,
+        ratingOfStory,
+        ratingOfProduction,
+        ratingOfMusic,
+        ratingOfComedy,
+        ratingOfImpression,
+        ratingOfThrill,
+        body,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        drama: dramaEntity,
+      },
+    );
+    await this.reviewRepository.save(reviewOrmEntity);
 
-    return this.convertEntityToModel(reviewEntity);
+    return this.convertOrmEntityToModel(reviewOrmEntity);
   }
 
   async delete(id: number): Promise<void> {
@@ -118,7 +116,7 @@ export class StaticReviewRepository implements ReviewRepository {
     return rating;
   }
 
-  public convertEntityToModel(reviewEntity: ReviewEntity): Review {
+  public convertOrmEntityToModel(reviewOrmEntity: ReviewOrmEntity): Review {
     const {
       id,
       body,
@@ -134,10 +132,10 @@ export class StaticReviewRepository implements ReviewRepository {
       ratingOfComedy,
       ratingOfThrill,
       drama: dramaEntity,
-    } = reviewEntity;
+    } = reviewOrmEntity;
 
     const dramaPresentation =
-      StaticDramaRepository.convertEntityToPresentation(dramaEntity);
+      StaticDramaRepository.convertOrmEntityToPresentation(dramaEntity);
     const review = new Review(id, body, dramaPresentation);
     if (commentator) {
       review.commentator = commentator;

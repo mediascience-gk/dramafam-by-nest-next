@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { ReviewService } from '../services/review/review.service';
 import { CreateReviewDto } from '../models/review/dtos/create-review.dto';
 import { Review } from '../models/review/review';

@@ -3,10 +3,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { DramaModule } from '../src/modules/drama.module';
 import { AppModule } from '../src/app.module';
-import { DramaEntity } from '../src/interface-adapter/gateways/entities/drama.entity';
+import { DramaOrmEntity } from '../src/interface-adapter/orm/entities/drama.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DramaSeeder } from '../dist/interface-adapter/gateways/seeders/drama.seeder';
-import { ReviewEntity } from '../src/interface-adapter/gateways/entities/review.entity';
+import { ReviewOrmEntity } from '../src/interface-adapter/orm/entities/review.entity';
 
 describe(DramaModule, () => {
   let module: TestingModule;
@@ -17,7 +17,7 @@ describe(DramaModule, () => {
     module = await Test.createTestingModule({
       imports: [
         AppModule,
-        TypeOrmModule.forFeature([DramaEntity, ReviewEntity]),
+        TypeOrmModule.forFeature([DramaOrmEntity, ReviewOrmEntity]),
       ],
       providers: [DramaSeeder],
     }).compile();

@@ -1,26 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DramaModule } from '../../src/modules/drama.module';
-import { DramaEntity } from '../../src/interface-adapter/gateways/entities/drama.entity';
+import { DramaOrmEntity } from '../../src/interface-adapter/orm/entities/drama.entity';
 import { Repository } from 'typeorm';
 import { convertKanaToKanaStatus } from '../../src/utils/kana-status/convert-kana-to-kana-status';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { AppModule } from '../../src/app.module';
 import { DramaSeeder } from '../../dist/interface-adapter/gateways/seeders/drama.seeder';
-import { ReviewEntity } from '../../src/interface-adapter/gateways/entities/review.entity';
+import { ReviewOrmEntity } from '../../src/interface-adapter/orm/entities/review.entity';
 
 // ORM の CRUD のテストをしたい
 describe(DramaModule, () => {
-  let dramaRepository: Repository<DramaEntity>;
-  let drama: DramaEntity;
+  let dramaRepository: Repository<DramaOrmEntity>;
+  let drama: DramaOrmEntity;
   let module: TestingModule;
   let seeder: DramaSeeder;
 
   @Injectable()
   class StubDramaRepository {
     constructor(
-      @InjectRepository(DramaEntity)
-      readonly dramaRepository: Repository<DramaEntity>,
+      @InjectRepository(DramaOrmEntity)
+      readonly dramaRepository: Repository<DramaOrmEntity>,
     ) {}
   }
 
@@ -28,7 +28,7 @@ describe(DramaModule, () => {
     module = await Test.createTestingModule({
       imports: [
         AppModule,
-        TypeOrmModule.forFeature([DramaEntity, ReviewEntity]),
+        TypeOrmModule.forFeature([DramaOrmEntity, ReviewOrmEntity]),
       ],
       providers: [StubDramaRepository, DramaSeeder],
     }).compile();

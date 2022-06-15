@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ReviewEntity } from '../interface-adapter/gateways/entities/review.entity';
-import { DramaEntity } from '../interface-adapter/gateways/entities/drama.entity';
+import { ReviewOrmEntity } from '../interface-adapter/orm/entities/review-orm.entity';
+import { DramaOrmEntity } from '../interface-adapter/orm/entities/drama-orm.entity';
+import { SeasonOrmEntity } from '../interface-adapter/orm/entities/season-orm.entity';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { DramaEntity } from '../interface-adapter/gateways/entities/drama.entity
       username: 'user',
       password: 'password',
       database: 'test',
-      entities: [ReviewEntity, DramaEntity],
+      entities: [ReviewOrmEntity, DramaOrmEntity, SeasonOrmEntity],
       synchronize: true,
     }),
   ],

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { DramaService } from '../services/drama/drama.service';
 import { CreateDramaDto } from '../models/drama/dtos/create-drama.dto';
 import { Drama } from '../models/drama/drama';

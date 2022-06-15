@@ -1,16 +1,16 @@
-import { DramaEntity } from '../entities/drama.entity';
+import { DramaOrmEntity } from '../entities/drama-orm.entity';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ReviewEntity } from '../entities/review.entity';
+import { ReviewOrmEntity } from '../entities/review-orm.entity';
 
 @Injectable()
 export class DramaSeeder {
   constructor(
-    @InjectRepository(DramaEntity)
-    private readonly repository: Repository<DramaEntity>,
-    @InjectRepository(ReviewEntity)
-    private readonly reviewRepository: Repository<ReviewEntity>,
+    @InjectRepository(DramaOrmEntity)
+    private readonly repository: Repository<DramaOrmEntity>,
+    @InjectRepository(ReviewOrmEntity)
+    private readonly reviewRepository: Repository<ReviewOrmEntity>,
   ) {}
 
   async seed(): Promise<void> {

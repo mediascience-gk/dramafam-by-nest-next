@@ -5,12 +5,15 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
-import { ReviewEntity } from './review.entity';
+import { ReviewOrmEntity } from './review-orm.entity';
+import { SeasonOrmEntity } from './season-orm.entity';
 
 @Entity('dramas')
-export class DramaEntity {
+export class DramaOrmEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -32,8 +35,12 @@ export class DramaEntity {
   @Column({ nullable: true, type: 'varchar', length: 10, width: 64 })
   endAt: string | null;
 
-  @OneToMany(() => ReviewEntity, (review) => review.drama, { cascade: true })
-  reviews: ReviewEntity[];
+  @OneToMany(() => ReviewOrmEntity, (review) => review.drama, { cascade: true })
+  reviews: ReviewOrmEntity[];
+
+  @ManyToMany((type) => SeasonOrmEntity)
+  @JoinTable()
+  seasons: SeasonOrmEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

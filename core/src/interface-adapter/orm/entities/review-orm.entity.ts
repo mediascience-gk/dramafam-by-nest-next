@@ -5,10 +5,9 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  TreeParent,
 } from 'typeorm';
 
-import { DramaEntity } from './drama.entity';
+import { DramaOrmEntity } from './drama-orm.entity';
 import { Age, allAge } from '../../../models/drama/dtos/enums/age.enum';
 import {
   allGender,
@@ -16,12 +15,9 @@ import {
 } from '../../../models/drama/dtos/enums/gender.enum';
 
 @Entity('reviews')
-export class ReviewEntity {
+export class ReviewOrmEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @TreeParent({ onDelete: 'CASCADE' })
-  parent: ReviewEntity;
 
   @Column({ nullable: true, type: 'varchar', width: 80 })
   commentator: string | null;
@@ -59,11 +55,11 @@ export class ReviewEntity {
   @Column('text')
   body: string;
 
-  @ManyToOne(() => DramaEntity, (drama) => drama.reviews, {
+  @ManyToOne(() => DramaOrmEntity, (drama) => drama.reviews, {
     onDelete: 'CASCADE',
     orphanedRowAction: 'delete',
   })
-  drama: DramaEntity;
+  drama: DramaOrmEntity;
 
   @CreateDateColumn()
   createdAt: Date;

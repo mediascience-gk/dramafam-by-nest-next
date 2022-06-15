@@ -6,24 +6,24 @@ import { ReviewRepository } from '../../models/review/review.repository';
 
 @Injectable()
 export class ReviewService {
-  constructor(private commentRepository: ReviewRepository) {}
+  constructor(private reviewRepository: ReviewRepository) {}
 
   async create(
     createCommentDto: CreateReviewDto,
     request: Request,
   ): Promise<Review> {
-    return await this.commentRepository.create(createCommentDto);
+    return await this.reviewRepository.create(createCommentDto);
   }
 
   async findAllByDramaId(dramaId: number): Promise<Review[]> {
-    return await this.commentRepository.findAllByDramaId(dramaId);
+    return await this.reviewRepository.findAllByDramaId(dramaId);
   }
 
   async findOne(id: number): Promise<Review> {
-    return await this.commentRepository.findById(id);
+    return await this.reviewRepository.findById(id);
   }
 
   async remove(id: number): Promise<void> {
-    await this.commentRepository.delete(id);
+    await this.reviewRepository.delete(id);
   }
 }
